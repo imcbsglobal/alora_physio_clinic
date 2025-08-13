@@ -1,0 +1,943 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Nutrition Foundation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F0F0F0;
+        }
+
+        /* Hidden sections style */
+        .section-hidden {
+            display: none !important;
+        }
+
+        /* Nutrition Banner (always visible) */
+        .nutrition-banner {
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.3)
+            ), 
+            url('https://avatars.mds.yandex.net/get-ydo/9712213/2a00000190e52153ad8f426d171730bbeea8/diploma');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .banner-content {
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: bold;
+            margin-bottom: 60px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #583c57, #583c57);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* About Section */
+        #about {
+            background: linear-gradient(135deg, #573c58 0%, #573c58 100%);
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .curved-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><path d="M0,100 Q250,200 500,100 T1000,100 V300 H0 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-circle:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .learn-more-btn:hover {
+            background: white;
+            color: #583c57;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Combined Mission/Vision Section */
+        .about-mission-vision {
+            display: none;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #573c58 0%, #573c58 100%);
+        }
+
+        .about-mission-vision.active {
+            display: block;
+        }
+
+        .mission-vision-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .mission-box, .vision-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mission-box {
+            border-top: 5px solid #583c57;
+        }
+
+        .vision-box {
+            border-top: 5px solid #3c5875;
+        }
+
+        .mission-box h3, .vision-box h3 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .mission-box p, .vision-box p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+        }
+
+        /* Director Section */
+        #team.team-section {
+            background: linear-gradient(135deg, #e9e6e6 0%, #cccaca 100%);
+            padding: 100px 40px;
+            text-align: center;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        .team-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .team-subtitle {
+            font-size: 1.2rem;
+            color: rgba(0, 0, 0, 0.9);
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .director-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .director-image {
+            flex: 0 0 300px;
+        }
+
+        .director-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .director-message {
+            flex: 1;
+            text-align: left;
+        }
+
+        .director-message h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .director-message p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .director-message p:last-child {
+            font-style: italic;
+        }
+
+        /* Team Section */
+        #values.our_team-section {
+            max-width: 100%;
+            margin: 0;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .our_team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,0 0,52 60,52" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 60px 60px;
+            opacity: 0.2;
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .our_team-section .team-member {
+            background: rgba(223, 222, 222, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 25px;
+            padding: 50px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .our_team-section .member-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            border: none;
+        }
+
+        .our_team-section .member-name {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .member-title {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Section Navigation */
+        .section-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 15px 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-nav a {
+            display: block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            text-indent: -9999px;
+        }
+
+        .section-nav a.active {
+            background: #583c57;
+            transform: scale(1.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .content h2 {
+                font-size: 2.5rem;
+            }
+
+            .team-title {
+                font-size: 2.5rem;
+            }
+
+            .director-container {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            .director-image {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 30px;
+            }
+
+            .team-members {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .mission-vision-container {
+                grid-template-columns: 1fr;
+            }
+
+            #about.about-section,
+            #team.team-section,
+            #values.our_team-section {
+                padding: 60px 20px;
+            }
+        }
+
+
+         /* Added new style for the expanded content */
+        .expanded-content {
+            display: none;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #573c58 0%, #573c58 100%);
+        }
+        
+        .expanded-content.active {
+            display: block;
+        }
+        
+        .mission-vision-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .mission-box, .vision-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mission-box {
+            border-top: 5px solid #583c57;
+        }
+        
+        .vision-box {
+            border-top: 5px solid #3c5875;
+        }
+        
+        .mission-box h3, .vision-box h3 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .mission-vision-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Always visible banner -->
+    <section class="nutrition-banner">
+        <div class="banner-content">
+            <h1 class="main-title">
+                Nutrition is the<br>
+                foundation of health
+            </h1>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7C14.4 7 14 7.4 14 8V10.5L12.5 12L14 13.5V16C14 16.6 14.4 17 15 17H21V15H16V14L18 12L16 10V9H21ZM10 10.5L8.5 12L10 13.5V16C10 16.6 9.6 17 9 17H3V15H8V14L6 12L8 10V9H3V7H9C9.6 7 10 7.4 10 8V10.5Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Healthy life</h3>
+                    <p class="feature-description">
+                       A healthy life is about balanced living—eating well, staying active, sleeping enough, and managing stress for overall well-being
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Our principles</h3>
+                    <p class="feature-description">
+                       We believe in integrity, quality, and care—committed to honesty, excellence, and putting people first in everything we do.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M10,17L6,13L7.41,11.58L10,14.17L16.59,7.58L18,9"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">About Physio</h3>
+                    <p class="feature-description">
+                       Physiotherapy helps restore movement and function through exercises, manual therapy, and education. It supports recovery.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (Who We Are) -->
+    <section id="about" class="about-section">
+        <div class="curved-overlay"></div>
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        
+        <div class="container">
+            <div class="content">
+                <h2>Who We Are</h2>
+                <p>Founded in 2023, Alora International Pvt. Ltd. is a healthcare-driven company committed to promoting better living through personalized and professional care. Under the brand name ALO PHYSIO CENTRE, we provide specialized services in geriatric-centered pain management, physiotherapy, and mental wellness therapies.</p>
+                <p>With our first clinic successfully running at T.C. Palya, and the second branch launched at SRI ARCA Diabetes & General Clinic, we continue our mission to serve the community with compassion, expertise, and integrity.
+</p>
+                <a href="#" class="learn-more-btn" id="show-mission-vision">learn more</a>
+            </div>
+            
+            <div class="image-container">
+                <img src="https://i.pinimg.com/originals/b7/e3/9c/b7e39c5f06d690eb8a264ac35fbad788.jpg" alt="Nutrition about">
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission/Vision Expanded Content -->
+    <div class="expanded-content" id="mission-vision-content">
+        <div class="mission-vision-container">
+            <div class="mission-box">
+                <h3>Our Mission</h3>
+                <p>To empower individuals—especially the elderly and those suffering from chronic pain—through integrated physiotherapy and mental wellness care, ensuring a healthier, happier, and independent lifestyle.</p>
+            </div>
+            
+            <div class="vision-box">
+                <h3>Our Vision</h3>
+                <p>To become a leading name in holistic geriatric care and rehabilitation in India, with a network of accessible clinics offering scientifically proven and compassionate treatments.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Director Section -->
+    <section id="team" class="team-section section-hidden">
+        <h1 class="team-title">Message From Our Director</h1>
+        <p class="team-subtitle">Leadership dedicated to nutritional excellence</p>
+        
+        <div class="director-container">
+            <div class="director-image">
+                <img src="{% static 'images\Amal shaju.jpg' %}" 
+                     alt="Dr. James Wilson, Director">
+            </div>
+            <div class="director-message">
+                <h3>Mr. Amal Shaju </h3>
+                <p>
+                    "At Alora, we believe that health care is not just treatment—it’s a journey toward better living. Our focus on geriatric care, mental wellness, and adaptive physiotherapy comes from a deep understanding of how aging and chronic pain affect lives. With ALO PHYSIO CENTRE, we aim to be a healing companion to those who need care the most."
+                </p>
+                <p>
+                    (Director, Alora International Pvt. Ltd.)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="values" class="our_team-section section-hidden">
+        <h1 class="team-title" style="color: black;">Meet Our Team</h1>
+        <p class="team-subtitle" style="color: #666; margin-bottom: 60px;">The passionate professionals behind our mission</p>
+        
+        <div class="team-members">
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="Dr. Sarah Johnson" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">Dr. Sarah Johnson</h3>
+                <p class="member-position">Chief Nutritionist</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">PhD in Nutritional Sciences</p>
+            </div>
+            
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="Michael Chen" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">Michael Chen</h3>
+                <p class="member-position">Research Director</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">MS in Food Science</p>
+            </div>
+            
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="Roxie Swanson" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">Roxie Swanson</h3>
+                <p class="member-position">Community Outreach</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">Registered Dietitian</p>
+            </div>
+
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="David Wilson" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">David Wilson</h3>
+                <p class="member-position">Clinical Nutritionist</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">MD, Nutrition Specialist</p>
+            </div>
+
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="Emma Rodriguez" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">Emma Rodriguez</h3>
+                <p class="member-position">Pediatric Nutrition</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">MPH, Child Nutrition</p>
+            </div>
+
+            <div class="team-member">
+                <img src="{% static 'images\IMG-20250807-WA0007.jpg' %}" 
+                     alt="James Peterson" 
+                     class="member-photo"
+                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #583c57;">
+                <h3 class="member-name">James Peterson</h3>
+                <p class="member-position">Sports Nutrition</p>
+                <p class="member-title" style="font-size: 0.9rem; color: #666;">CSCS, Nutrition Coach</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const banner = document.querySelector('.nutrition-banner');
+            const showMissionVisionBtn = document.getElementById('show-mission-vision');
+            const missionVisionSection = document.getElementById('mission-vision');
+            
+            // Show mission/vision when clicking "Learn More"
+            if (showMissionVisionBtn) {
+                showMissionVisionBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    missionVisionSection.classList.add('active');
+                    missionVisionSection.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Function to show/hide sections based on URL hash
+            function updateVisibleSections() {
+                // Get all sections except the banner
+                const sections = document.querySelectorAll('section[id]:not(.nutrition-banner)');
+                
+                // Get the hash from URL
+                const hash = window.location.hash.substring(1);
+                
+                if (hash && hash !== '') {
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.add('section-hidden');
+                    });
+                    
+                    // Show only the requested section
+                    const targetSection = document.getElementById(hash);
+                    if (targetSection && !targetSection.classList.contains('nutrition-banner')) {
+                        targetSection.classList.remove('section-hidden');
+                    }
+                    
+                    // Hide mission/vision unless we're on the about section
+                    if (hash !== 'about') {
+                        if (missionVisionSection) missionVisionSection.classList.remove('active');
+                    }
+                    
+                    // Scroll to the section
+                    if (targetSection) {
+                        setTimeout(() => {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                    }
+                } else {
+                    // No hash - show all sections except mission/vision
+                    sections.forEach(section => {
+                        section.classList.remove('section-hidden');
+                    });
+                    if (missionVisionSection) missionVisionSection.classList.remove('active');
+                }
+            }
+            
+            // Handle dropdown menu clicks from the main navigation
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('a[href*="#"]')) {
+                    const href = e.target.getAttribute('href');
+                    if (href.includes('#')) {
+                        const hash = href.split('#')[1];
+                        if (['about', 'team', 'values'].includes(hash)) {
+                            e.preventDefault();
+                            window.location.hash = hash;
+                            updateVisibleSections();
+                        }
+                    }
+                }
+            });
+            
+            // Initial update - check hash on page load
+            if (window.location.hash) {
+                updateVisibleSections();
+            } else {
+                // Default to showing the about section if no hash
+                document.getElementById('about').classList.remove('section-hidden');
+            }
+            
+            // Update when hash changes
+            window.addEventListener('hashchange', updateVisibleSections);
+            
+            // Smooth scrolling to banner when showing all sections
+            window.addEventListener('hashchange', function() {
+                if (!window.location.hash) {
+                    banner.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+
+
+         document.addEventListener('DOMContentLoaded', function() {
+            const banner = document.querySelector('.nutrition-banner');
+            const showMissionVisionBtn = document.getElementById('show-mission-vision');
+            const missionVisionContent = document.getElementById('mission-vision-content');
+            
+            // Show mission/vision when clicking "Learn More"
+            if (showMissionVisionBtn && missionVisionContent) {
+                showMissionVisionBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    missionVisionContent.classList.toggle('active');
+                    
+                    if (missionVisionContent.classList.contains('active')) {
+                        // Scroll to the expanded content
+                        missionVisionContent.scrollIntoView({ behavior: 'smooth' });
+                        // Change button text
+                        showMissionVisionBtn.textContent = 'show less';
+                    } else {
+                        // Scroll back to the about section
+                        document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+                        // Change button text
+                        showMissionVisionBtn.textContent = 'learn more';
+                    }
+                });
+            }
+            
+            // Function to show/hide sections based on URL hash
+            function updateVisibleSections() {
+                // Get all sections except the banner
+                const sections = document.querySelectorAll('section[id]:not(.nutrition-banner)');
+                
+                // Get the hash from URL
+                const hash = window.location.hash.substring(1);
+                
+                if (hash && hash !== '') {
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.add('section-hidden');
+                    });
+                    
+                    // Show only the requested section
+                    const targetSection = document.getElementById(hash);
+                    if (targetSection && !targetSection.classList.contains('nutrition-banner')) {
+                        targetSection.classList.remove('section-hidden');
+                    }
+                    
+                    // Hide mission/vision unless we're on the about section
+                    if (hash !== 'about' && missionVisionContent) {
+                        missionVisionContent.classList.remove('active');
+                        if (showMissionVisionBtn) showMissionVisionBtn.textContent = 'learn more';
+                    }
+                    
+                    // Scroll to the section
+                    if (targetSection) {
+                        setTimeout(() => {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                    }
+                } else {
+                    // No hash - show all sections except mission/vision
+                    sections.forEach(section => {
+                        section.classList.remove('section-hidden');
+                    });
+                    if (missionVisionContent) {
+                        missionVisionContent.classList.remove('active');
+                        if (showMissionVisionBtn) showMissionVisionBtn.textContent = 'learn more';
+                    }
+                }
+            }
+            
+            // Handle dropdown menu clicks from the main navigation
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('a[href*="#"]')) {
+                    const href = e.target.getAttribute('href');
+                    if (href.includes('#')) {
+                        const hash = href.split('#')[1];
+                        if (['about', 'team', 'values'].includes(hash)) {
+                            e.preventDefault();
+                            window.location.hash = hash;
+                            updateVisibleSections();
+                        }
+                    }
+                }
+            });
+            
+            // Initial update - check hash on page load
+            if (window.location.hash) {
+                updateVisibleSections();
+            } else {
+                // Default to showing the about section if no hash
+                document.getElementById('about').classList.remove('section-hidden');
+            }
+            
+            // Update when hash changes
+            window.addEventListener('hashchange', updateVisibleSections);
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

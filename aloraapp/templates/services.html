@@ -1,0 +1,901 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhysioHealing - Our Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #F0F0F0;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #71286f , #71286f);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Service Menu Navigation */
+        .service-nav {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .service-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .service-menu {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .service-menu-item {
+            padding: 0.8rem 1.5rem;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .service-menu-item:hover {
+            background: #46aa99;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .service-menu-item.active {
+            background: #46aa99;
+            color: white;
+            border-color: #46aa99;
+        }
+
+        /* Content Sections */
+        .service-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            min-height: 600px;
+        }
+
+        .service-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .service-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .service-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .service-hero h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #71286f, #71286f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .service-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+
+        .service-info h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .service-info p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .service-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .service-info li {
+            color: #666;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-info li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #71286f;
+            font-weight: bold;
+        }
+
+        .service-image {
+            text-align: center;
+        }
+
+        .service-image img {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #71286f, #71286f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .benefit-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, #71286f, #71286f);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: #71286f;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* All Services Overview */
+        .services-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .overview-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .overview-card-content {
+            padding: 1.5rem;
+        }
+
+        .overview-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .overview-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer Styles
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #46aa99;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #46aa99;
+        } */
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-info i {
+            margin-right: 0.8rem;
+            color: #46aa99;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .service-menu {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .service-details {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .service-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .service-content {
+                padding: 2rem 1rem;
+            }
+
+            .service-hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Service Content -->
+    <div class="service-content">
+        <!-- All Services Overview -->
+        <div id="all" class="service-section active">
+            <div class="service-hero">
+                <h1>Our Comprehensive Services</h1>
+                <p>Discover our full range of physiotherapy treatments designed to restore function, reduce pain, and improve your quality of life through evidence-based care.</p>
+            </div>
+            
+            <div class="services-overview">
+                <div class="overview-card" onclick="showService('orthopedic')">
+                    <img src="https://promedclinic-nn.ru/media/k2/items/cache/1ba6f013b03d3119f460bad3db0fbe5d_XL.jpg" alt="Orthopedic Physiotherapy">
+                    <div class="overview-card-content">
+                        <h3>Orthopedic Physiotherapy</h3>
+                        <p>Orthopedic Physiotherapy treats bone, joint, and muscle issues to improve movement, strength, and recovery after injuries or surgeries</p>
+                    </div>
+                </div>
+
+                <div class="overview-card" onclick="showService('neurological')">
+                    <img src="https://www.physio.co.uk/images/paralysis/paralysis1.jpg" alt="Neurological Rehabilitation">
+                    <div class="overview-card-content">
+                        <h3>Neurological Physiotherapy</h3>
+                        <p>Neurological Physiotherapy helps restore movement and function in people with nervous system disorders like stroke, Parkinson's disease, or spinal cord injuries.</p>
+                    </div>
+                </div>
+
+                <div class="overview-card" onclick="showService('post-surgical')">
+                    <img src="https://img.physicalmedicinecorona.com/img/patah-tulang/192/proses-penyembuhan-patah-tulang.jpg" alt="Post-Surgical Rehabilitation">
+                    <div class="overview-card-content">
+                        <h3>Post-Surgical Physiotherapy</h3>
+                        <p>Post-Surgical Physiotherapy aids recovery after surgery by reducing pain, restoring mobility, and improving strength and function.</p>
+                    </div>
+                </div>
+
+                <div class="overview-card" onclick="showService('geriatric')">
+                    <img src="https://d.newsweek.com/en/full/1592805/physical-rehabilitation-centers-2020.jpg" alt="Geriatric Physiotherapy">
+                    <div class="overview-card-content">
+                        <h3>Geriatric Physiotherapy</h3>
+                        <p>Geriatric Physiotherapy focuses on improving mobility, strength, and balance in older adults to manage age-related conditions and enhance quality of life.</p>
+                    </div>
+                </div>
+
+                <div class="overview-card" onclick="showService('sports')">
+                    <img src="https://miro.medium.com/v2/resize:fit:1200/1*FvZVfolFoVWoNajdI0uXnA.jpeg" alt="Sports Injury Recovery">
+                    <div class="overview-card-content">
+                        <h3>Mind & Body Wellness program</h3>
+                        <p>Our Mind & Body Wellness Program is designed to restore balance through holistic healing. Combining physical therapies, mindfulness practices.</p>
+                    </div>
+                </div>
+
+                <div class="overview-card" onclick="showService('home')">
+                    <img src="https://cdn.painscale.com/cms/imgs/605be370-da35-11ed-a818-6ba56afe2269.jpg" alt="Home Physiotherapy">
+                    <div class="overview-card-content">
+                        <h3>Home Physiotherapy</h3>
+                        <p>Home Physiotherapy provides personalized treatment at a patient's home, promoting recovery, comfort, and convenience for those with mobility or health limitations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orthopedic Physiotherapy -->
+        <div id="orthopedic" class="service-section">
+            <div class="service-hero">
+                <h1>Physio ortho Rehabilitation</h1>
+                <p>Physio Ortho Rehabilitation helps restore movement, strength, and function after bone, joint, or muscle injuries, reducing pain and improving mobility for daily activities</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>What We Treat</h2>
+                    <p>Our orthopedic physiotherapy services address a wide range of musculoskeletal conditions and injuries affecting bones, joints, muscles, ligaments, and tendons.</p>
+                    <ul>
+                        <li>Joint replacements (hip, knee, shoulder)</li>
+                        <li>Fracture rehabilitation</li>
+                        <li>Arthritis management</li>
+                        <li>Back and neck pain</li>
+                        <li>Ligament and tendon injuries</li>
+                        <li>Muscle strains and sprains</li>
+                        <li>Post-operative recovery</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://avatars.mds.yandex.net/i?id=7365b50eb08b57baf2b2e68b81a2aa5354ca59a6-5369205-images-thumbs&n=13" alt="Orthopedic Physiotherapy">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Pain Reduction</h3>
+                    <p>Effective pain management through targeted therapies and evidence-based techniques.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Strength Building</h3>
+                    <p>Progressive strengthening programs to restore muscle function and stability.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Mobility Restoration</h3>
+                    <p>Improve range of motion and functional movement patterns for daily activities.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Ready to Start Your Recovery?</h3>
+                <p>Book a consultation with our orthopedic physiotherapy specialists today.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+
+        <!-- Neurological Rehabilitation -->
+        <div id="neurological" class="service-section">
+            <div class="service-hero">
+                <h1>Neurological Physiotherapy</h1>
+                <p>Specialized physiotherapy for individuals with neurological conditions, focusing on maximizing independence and improving quality of life.</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>Conditions We Treat</h2>
+                    <p>Our neurological rehabilitation program is designed for patients with various neurological conditions affecting movement, balance, and coordination.</p>
+                    <ul>
+                        <li>Stroke recovery</li>
+                        <li>Spinal cord injuries</li>
+                        <li>Parkinson's disease</li>
+                        <li>Multiple sclerosis</li>
+                        <li>Traumatic brain injury</li>
+                        <li>Peripheral neuropathy</li>
+                        <li>Balance disorders</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://www.physio.co.uk/images/difficulty-with-fine-or-gross-motor-skills/difficulty-with-fine-or-gross-motor-skills1.jpg" alt="Neurological Rehabilitation">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Neural Recovery</h3>
+                    <p>Promote neuroplasticity and brain adaptation through targeted exercises.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Balance Training</h3>
+                    <p>Improve stability and reduce fall risk through specialized balance programs.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Functional Training</h3>
+                    <p>Focus on activities of daily living to maximize independence.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Begin Your Neurological Recovery Journey</h3>
+                <p>Our specialized team is here to support your rehabilitation goals.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+
+        <!-- Post-Surgical Rehabilitation -->
+        <div id="post-surgical" class="service-section">
+            <div class="service-hero">
+                <h1>Post-Surgical Physiotherapy</h1>
+                <p>Comprehensive recovery programs designed to optimize healing and restore function following surgical procedures.</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>Surgical Recovery Support</h2>
+                    <p>Our post-surgical rehabilitation programs are tailored to your specific procedure and recovery timeline, ensuring safe and effective healing.</p>
+                    <ul>
+                        <li>Joint replacement surgery</li>
+                        <li>ACL reconstruction</li>
+                        <li>Rotator cuff repair</li>
+                        <li>Spinal surgery recovery</li>
+                        <li>Cardiac surgery rehabilitation</li>
+                        <li>Abdominal surgery recovery</li>
+                        <li>Fracture fixation rehabilitation</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://img.physicalmedicinecorona.com/img/patah-tulang/192/proses-penyembuhan-patah-tulang.jpg" alt="Post-Surgical Rehabilitation">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Safe Recovery</h3>
+                    <p>Follow evidence-based protocols to ensure safe and optimal healing.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Faster Return</h3>
+                    <p>Accelerate your return to normal activities with structured rehabilitation.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Prevent Complications</h3>
+                    <p>Reduce risk of post-surgical complications through proper rehabilitation.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Start Your Post-Surgical Recovery</h3>
+                <p>Begin your rehabilitation journey with our expert post-surgical team.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+
+        <!-- Geriatric Physiotherapy -->
+        <div id="geriatric" class="service-section">
+            <div class="service-hero">
+                <h1>Geriatric Physiotherapy</h1>
+                <p>Age-specific treatments focusing on mobility, balance, and independence for seniors, addressing the unique challenges of aging.</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>Senior-Focused Care</h2>
+                    <p>Our geriatric physiotherapy services are specifically designed to address age-related changes and help seniors maintain their independence and quality of life.</p>
+                    <ul>
+                        <li>Fall prevention programs</li>
+                        <li>Balance and gait training</li>
+                        <li>Osteoporosis management</li>
+                        <li>Arthritis pain relief</li>
+                        <li>Mobility aid training</li>
+                        <li>Strength maintenance</li>
+                        <li>Chronic pain management</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://d.newsweek.com/en/full/1592805/physical-rehabilitation-centers-2020.jpg" alt="Geriatric Physiotherapy">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Independent Living</h3>
+                    <p>Maintain independence and confidence in daily activities.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Fall Prevention</h3>
+                    <p>Reduce fall risk through balance training and environmental assessment.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Quality of Life</h3>
+                    <p>Improve overall well-being and enjoyment of daily activities.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Maintain Your Independence</h3>
+                <p>Let our geriatric specialists help you stay active and independent.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+
+        <!-- Sports Injury Recovery -->
+        <div id="sports" class="service-section">
+            <div class="service-hero">
+                <h1>Mind & Body Wellness program</h1>
+                <p>A holistic program to restore balance, reduce stress, and enhance overall well-being through physical therapy, mindfulness, and lifestyle support.</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>Mind & Body Wellness Program</h2>
+                    <p>Our wellness program integrates physical therapy, mindfulness, and lifestyle support to promote inner balance and overall well-being.</p>
+                    <ul>
+                        <li>Stress and anxiety management</li>
+                        <li>Mindfulness and relaxation techniques</li>
+                        <li>Postural correction and body awareness</li>
+                        <li>Breathing and meditation practices</li>
+                        <li>Holistic lifestyle guidance</li>
+                        <li>Therapeutic yoga and stretching</li>
+                        <li>Chronic pain and fatigue support</li>
+                    </ul>
+                </div>
+
+                <div class="service-image">
+                    <img src="https://g.foolcdn.com/editorial/images/566110/women-doing-yoga.jpg" alt="Sports Injury Recovery">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Faster Recovery</h3>
+                    <p>Accelerated healing through sport-specific rehabilitation protocols.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Performance Boost</h3>
+                    <p>Enhance athletic performance through targeted training programs.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Injury Prevention</h3>
+                    <p>Reduce future injury risk through movement optimization.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Get Back in the Game</h3>
+                <p>Return to your sport stronger and more resilient than before.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+
+        <!-- Home Physiotherapy -->
+        <div id="home" class="service-section">
+            <div class="service-hero">
+                <h1>Home Physiotherapy</h1>
+                <p>Professional physiotherapy services delivered in the comfort and convenience of your own home environment.</p>
+            </div>
+            
+            <div class="service-details">
+                <div class="service-info">
+                    <h2>In-Home Care Benefits</h2>
+                    <p>Our home physiotherapy service brings expert care directly to you, perfect for those with mobility limitations or who prefer the comfort of home treatment.</p>
+                    <ul>
+                        <li>Personalized one-on-one sessions</li>
+                        <li>Familiar environment comfort</li>
+                        <li>Family involvement in care</li>
+                        <li>Flexible scheduling</li>
+                        <li>Home safety assessments</li>
+                        <li>Equipment provision</li>
+                        <li>Progress monitoring</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://cdn.painscale.com/cms/imgs/605be370-da35-11ed-a818-6ba56afe2269.jpg" alt="Home Physiotherapy">
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Comfort & Convenience</h3>
+                    <p>Receive professional care in your familiar home environment.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Family Involvement</h3>
+                    <p>Include family members in your rehabilitation journey.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-home"></i></div>
+                    <h3>Flexible Timing</h3>
+                    <p>Schedule sessions that fit your lifestyle and preferences.</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Bring Physiotherapy Home</h3>
+                <p>Experience professional physiotherapy care in the comfort of your home.</p>
+                <a href="{% url 'booking' %}" class="cta-button">Make an Appointment</a>
+            </div>
+        </div>
+    </div>
+
+    <!--  -->
+
+    <script>
+        // Function to show specific service content
+        function showService(serviceId) {
+            // Hide all service sections
+            const sections = document.querySelectorAll('.service-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all menu items
+            const menuItems = document.querySelectorAll('.service-menu-item');
+            menuItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected service section
+            const selectedSection = document.getElementById(serviceId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+
+            // Add active class to clicked menu item
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            // Smooth scroll to content
+            document.querySelector('.service-content').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Function to handle URL hash changes
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1);
+            const validServices = ['all', 'orthopedic', 'neurological', 'post-surgical', 'geriatric', 'sports', 'home', 'pediatric'];
+            
+            if (validServices.includes(hash)) {
+                // Hide all sections
+                const sections = document.querySelectorAll('.service-section');
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show selected section
+                const selectedSection = document.getElementById(hash);
+                if (selectedSection) {
+                    selectedSection.classList.add('active');
+                }
+            }
+        }
+
+        // Handle URL hash on page load
+        window.addEventListener('load', handleHashChange);
+        
+        // Handle URL hash changes
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Add click handlers for overview cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const overviewCards = document.querySelectorAll('.overview-card');
+            overviewCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const onclick = this.getAttribute('onclick');
+                    if (onclick) {
+                        // Extract service ID from onclick attribute
+                        const serviceId = onclick.match(/showService\('(.+?)'\)/)[1];
+                        showService(serviceId);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

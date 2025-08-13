@@ -1,0 +1,1026 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Consulting Banner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: #F0F0F0;
+        }
+
+        /* Banner Section */
+        .banner-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            max-height: 1200px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), 
+                        url('https://riorancholandsales.com/wp-content/uploads/2020/05/rio_rancho_land_sales_customer_service_rep-scaled.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: white;
+            overflow: hidden;
+        }
+
+        .banner-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.6) 30%,
+                rgba(0, 0, 0, 0.4) 70%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
+            z-index: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 40px;
+            margin: 0 auto;
+        }
+
+        .banner-text {
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .banner-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .banner-description {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #71286f, #71286f);
+            color: white;
+            padding: 18px 35px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            /* box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4); */
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            /* box-shadow: 0 8px 25px rgb(255, 255, 255); */
+            background: linear-gradient(135deg, #71286f, #71286f);
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 25%;
+            animation-delay: 2s;
+        }
+
+        .circle-3 {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            right: 8%;
+            animation-delay: 4s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        /* Medical Centers Section */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 60px 0 50px;
+            padding: 0 20px;
+        }
+
+        .section-header h1 {
+            color: rgb(0, 0, 0);
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header p {
+            color: rgba(0, 0, 0, 0.9);
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        .clinics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .clinic-card {
+            background: rgba(218, 213, 213, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .clinic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .clinic-card:nth-child(1) {
+            border-left: 5px solid #71286F;
+        }
+
+        .clinic-card:nth-child(2) {
+            border-left: 5px solid #71286F;
+        }
+
+        .clinic-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .clinic-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .clinic-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .clinic-name {
+            font-size: 1.6em;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #71286F, #71286F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .clinic-subtitle {
+            color: #7f8c8d;
+            font-size: 1em;
+            font-style: italic;
+        }
+
+        .clinic-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-content h4 {
+            color: #2c3e50;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .info-content p {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .location-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .location-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .location-link::after {
+            content: ' 🗺️';
+            font-size: 1em;
+        }
+
+        /* Contact Form Section */
+        .contact-container {
+            max-width: 1200px;
+            margin: 60px auto 50px;
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .info-section {
+            background: #71286f;
+            color: white;
+            padding: 60px 40px;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+        }
+
+        .info-items {
+            margin-bottom: 30px;
+        }
+
+        .info-items h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-items p {
+            font-size: 14px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 60px 40px;
+            background: #f8f9fa;
+        }
+
+        .form-section h2 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: #00989d;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #71286f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            background: #3d023b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .banner-title {
+                font-size: 3.5rem;
+            }
+            
+            .clinics-grid {
+                gap: 30px;
+            }
+            
+            .clinic-card {
+                padding: 25px;
+            }
+            
+            .contact-container {
+                margin: 60px 20px 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-section {
+                height: 80vh;
+                min-height: 500px;
+            }
+
+            .banner-content {
+                padding: 0 20px;
+            }
+
+            .banner-title {
+                font-size: 2.8rem;
+                margin-bottom: 20px;
+            }
+
+            .banner-description {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 0.9rem;
+            }
+
+            .floating-circle {
+                display: none;
+            }
+            
+            .clinics-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .section-header h1 {
+                font-size: 2.5em;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+                margin: 40px 15px;
+            }
+            
+            .info-section,
+            .form-section {
+                padding: 40px 25px;
+            }
+            
+            .contact-info {
+                margin-top: 20px;
+            }
+            
+            .form-section h2 {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-section {
+                height: 70vh;
+                min-height: 400px;
+            }
+            
+            .banner-title {
+                font-size: 2.2rem;
+                letter-spacing: -1px;
+            }
+            
+            .banner-description {
+                font-size: 1rem;
+            }
+            
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 0.85rem;
+            }
+            
+            .section-header h1 {
+                font-size: 2em;
+            }
+            
+            .section-header p {
+                font-size: 1em;
+            }
+            
+            .clinic-card {
+                padding: 20px;
+            }
+            
+            .clinic-name {
+                font-size: 1.4em;
+            }
+            
+            .clinic-image img {
+                height: 160px;
+            }
+            
+            .info-item {
+                padding: 12px;
+            }
+            
+            .contact-container {
+                margin: 30px 10px;
+                border-radius: 15px;
+            }
+            
+            .info-section,
+            .form-section {
+                padding: 30px 20px;
+            }
+            
+            .form-section h2 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 12px 0;
+                font-size: 15px;
+            }
+            
+            .submit-btn {
+                padding: 16px;
+                font-size: 15px;
+            }
+            
+            .info-items h3 {
+                font-size: 16px;
+            }
+            
+            .info-items p {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .banner-title {
+                font-size: 2rem;
+            }
+            
+            .clinic-name {
+                font-size: 1.3em;
+            }
+            
+            .info-content h4 {
+                font-size: 0.95em;
+            }
+            
+            .info-content p {
+                font-size: 0.85em;
+            }
+        }
+
+       
+        .contact-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .map-container {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .map-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            pointer-events: none;
+        }
+
+        .form-container {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 0;
+            border: none;
+            border-bottom: 2px solid #e5e7eb;
+            background: transparent;
+            font-size: 1rem;
+            color: #1f2937;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-bottom-color: #f59e0b;
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-section {
+                grid-template-columns: 1fr;
+                grid-template-rows: 300px 1fr;
+            }
+
+            .form-container {
+                padding: 40px 30px;
+            }
+
+            .form-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            body {
+                padding: 20px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-title {
+                font-size: 1.75rem;
+            }
+        }
+
+
+        /* alert */
+        .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+    </style>
+</head>
+<body>
+    <section class="banner-section">
+        <div class="floating-elements">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            <div class="floating-circle circle-3"></div>
+        </div>
+        
+        <div class="banner-content">
+            <div class="banner-text">
+                <h1 class="banner-title">contact us</h1>
+                <p class="banner-description">
+                    Our management consulting services focus on our clients' most critical issues and opportunities.
+                </p>
+                <a href="{% url 'services' %}" class="cta-button">See All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="main-container">
+            <div class="section-header">
+                <h1>Our Medical Centers</h1>
+                <p>Two convenient locations serving our community with excellence</p>
+            </div>
+            
+            <div class="clinics-grid">
+                <!-- Clinic 1 -->
+                <div class="clinic-card">
+                    <div class="clinic-image">
+                        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Downtown Medical Center">
+                    </div>
+                    
+                    <div class="clinic-header">
+                        <div class="clinic-name">ALO PHYSIO CENTRE- SRI ARCA</div>
+                        <div class="clinic-subtitle">Physiotherapy Center</div>
+                    </div>
+                    
+                    <div class="clinic-info">
+                        <div class="info-item">
+                            <svg class="info-icon" fill="#e74c3c" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Address</h4>
+                                <p>Gokula Layout, Basavanapura Rd, Battarahalli, Krishnarajapuram, Karnataka 560036</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <svg class="info-icon" fill="#e74c3c" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Get Directions</h4>
+                                <p>
+                                    <a href="https://maps.app.goo.gl/ZzCz2JWgP1TWRQ5V9" 
+                                       target="_blank" 
+                                       class="location-link">
+                                       View on Google Maps
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Clinic 2 -->
+                <div class="clinic-card">
+                    <div class="clinic-image">
+                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Suburban Medical Center">
+                    </div>
+                    
+                    <div class="clinic-header">
+                        <div class="clinic-name">ALO PHYSIO CENTRE- SNHC</div>
+                        <div class="clinic-subtitle">Physiotherapy Center</div>
+                    </div>
+                    
+                    <div class="clinic-info">
+                        <div class="info-item">
+                            <svg class="info-icon" fill="#3498db" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Address</h4>
+                                <p>SHANTHINILAYA HEALTH CARE CENTRE, Brindavan Layout, TC Palya, Krishnarajapuram, Bengaluru, Karnataka 560036</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <svg class="info-icon" fill="#3498db" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Get Directions</h4>
+                                <p>
+                                    <a href="https://maps.app.goo.gl/qy47a4iumSBNpYaZ6" 
+                                       target="_blank" 
+                                       class="location-link">
+                                       View on Google Maps
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="contact-section">
+        <div class="map-container">
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15549.38025026026!2d77.6953404!3d13.0136845!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae117cecedd511%3A0xc333cea7807fd84e!2sALO%20PHYSIO%20CENTRE-%20SRI%20ARCA!5e0!3m2!1sen!2sin!4v1754128137550!5m2!1sen!2sin" width="600" height="850" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="map-overlay"></div>
+            </div>
+        </div>
+        
+        <div class="form-container">
+    <h2 class="form-title">Get in touch</h2>
+
+    <form id="contactForm" method="post" action="{% url 'contact' %}">
+    {% csrf_token %}
+    
+    <!-- Display messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label class="form-label" for="name">Name*</label>
+        <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            class="form-input" 
+            placeholder="Enter your Name"
+            value="{{ request.POST.name }}"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="email">Email*</label>
+        <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-input" 
+            placeholder="Enter a valid email address"
+            value="{{ request.POST.email }}"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="message">Message*</label>
+        <textarea 
+            id="message" 
+            name="message" 
+            class="form-input form-textarea" 
+            placeholder="Your message here..."
+            required
+        >{{ request.POST.message }}</textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit</button>
+</form>
+</div>
+
+<!-- ✅ Include SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- ✅ Show Django Messages as SweetAlerts -->
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                icon: '{{ message.tags|default:"info" }}',
+                title: 'Notice',
+                text: '{{ message }}',
+                confirmButtonText: 'Close'
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+
+    </div>
+
+
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                // Simulate form submission
+                const btn = document.querySelector('.submit-btn');
+                btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                btn.textContent = 'Message Sent!';
+                
+                setTimeout(() => {
+                    btn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)';
+                    btn.textContent = 'Submit';
+                    document.getElementById('contactForm').reset();
+                }, 2000);
+            }
+        });
+
+        // Add floating animation to form inputs
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateX(5px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

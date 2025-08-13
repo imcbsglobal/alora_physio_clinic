@@ -1,0 +1,1064 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhysioHeal Clinic - Media</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      /* Header Section */
+      .media-header {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .media-header h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .media-header p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        opacity: 0.9;
+      }
+
+      .media-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.05) 0px,
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px,
+          transparent 20px
+        );
+        animation: slide 20s linear infinite;
+      }
+
+      @keyframes slide {
+        0% {
+          transform: translateX(-50px) translateY(-50px);
+        }
+        100% {
+          transform: translateX(0px) translateY(0px);
+        }
+      }
+
+      /* Section Styling */
+      .media-section {
+        padding: 60px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: none; /* Hide all sections by default */
+      }
+
+      /* Show the first section by default */
+      #gallery {
+        display: block;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: #2c3e50;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(135deg, #ff6b35, #f7931e);
+        margin: 15px auto 0;
+        border-radius: 2px;
+      }
+
+      /* Gallery Section */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .gallery-item {
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .gallery-caption {
+        padding: 20px;
+        background: white;
+      }
+
+      .gallery-caption h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .gallery-caption p {
+        color: #5a6c7d;
+        line-height: 1.6;
+      }
+
+      /* Events Section */
+      .events-container {
+        background: #f0f2f5;
+        padding: 40px;
+        border-radius: 10px;
+        margin-top: 30px;
+      }
+
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+      }
+
+      .event-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .event-media {
+        position: relative;
+        height: 200px;
+      }
+
+      .event-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 107, 53, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .event-media:hover .play-button {
+        background: rgba(255, 107, 53, 1);
+      }
+
+      .event-info {
+        padding: 20px;
+      }
+
+      .event-date {
+        font-size: 0.9rem;
+        color: #ff6b35;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .event-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .event-description {
+        color: #5a6c7d;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .event-link {
+        color: #ff6b35;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .event-link i {
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .event-link:hover i {
+        transform: translateX(5px);
+      }
+
+      /* Videos Section */
+      .videos-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .video-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .video-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .video-thumbnail {
+        position: relative;
+        height: 200px;
+      }
+
+      .video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .video-thumbnail .play-button {
+        opacity: 1;
+        background: rgba(44, 62, 80, 0.8);
+      }
+
+      .video-thumbnail:hover .play-button {
+        background: rgba(44, 62, 80, 1);
+      }
+
+      .video-info {
+        padding: 20px;
+      }
+
+      .video-category {
+        font-size: 0.9rem;
+        color: #ff6b35;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .video-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .video-description {
+        color: #5a6c7d;
+        line-height: 1.6;
+      }
+
+      /* Instagram Embed Styling */
+      .instagram-media {
+        min-width: 100% !important;
+        width: 100% !important;
+        height: 400px !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .media-header h1 {
+          font-size: 2.5rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .gallery-grid,
+        .events-grid,
+        .videos-container {
+          grid-template-columns: 1fr;
+        }
+
+        .events-container {
+          padding: 20px;
+        }
+
+        .instagram-media {
+          height: 300px !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .media-header h1 {
+          font-size: 2rem;
+        }
+
+        .media-header p {
+          font-size: 1rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Modal Styles */
+      .thumbnail-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        cursor: pointer;
+      }
+      
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+      }
+      
+      .modal-content {
+        position: relative;
+        margin: auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 800px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+      .close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+      }
+      
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+       /* Add these styles to your existing CSS */
+  #imageModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    text-align: center;
+  }
+
+  #imageModal .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    margin-top: 5vh;
+  }
+
+  #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+
+  #imageModal .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  #imageModal .close:hover,
+  #imageModal .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 768px) {
+    #imageModal .modal-content {
+      width: 100%;
+    }
+  }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  </head>
+  <body>
+    <!-- Header Section -->
+    <section class="media-header">
+      <h1>Media Center</h1>
+      <p>
+        Explore our gallery, upcoming events, and educational videos to learn
+        more about our physiotherapy services and wellness programs.
+      </p>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="media-section">
+  <h2 class="section-title">Our Gallery</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img
+        src="{% static 'images/IMG-20250807-WA0006.jpg' %}"
+        alt="Cardio Rehabilitation"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+
+    <div class="gallery-item">
+      <img
+        src="{% static 'images\IMG-20250807-WA0008.jpg' %}"
+        alt="Strength Training"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+
+    <div class="gallery-item">
+      <img
+        src="{% static 'images\IMG-20250807-WA0014.jpg' %}"
+        alt="Pediatric Therapy"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+
+    <div class="gallery-item">
+      <img
+        src="{% static 'images\IMG-20250807-WA0017.jpg' %}"
+        alt="Group Therapy"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+
+    <div class="gallery-item">
+      <img
+        src="{% static 'images\IMG-20250807-WA0007.jpg' %}"
+        alt="Gait Analysis"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+
+    <div class="gallery-item">
+      <img
+        src="{% static 'images\IMG-20250807-WA0016.jpg' %}"
+        alt="Sports Rehabilitation"
+        onclick="openImageModal(this.src, this.alt)"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal">
+  <span class="close" onclick="closeImageModal()">&times;</span>
+  <img class="modal-content" id="modalImage">
+  <div id="caption"></div>
+</div>
+
+    <!-- Events Section -->
+    <section id="events" class="media-section">
+  <!-- <h2 class="section-title">Upcoming Events</h2> -->
+  <div class="events-container">
+    <div class="events-grid">
+      <!-- Event 1 -->
+<div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0003.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+      <!-- Event 2 -->
+      <div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0008.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+      <!-- Event 3 -->
+      <div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0007.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+      <!-- Event 4 -->
+      <div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0006.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0005.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="event-card">
+  <div class="event-media">
+    <video
+      class="thumbnail-image"
+      controls
+      width="600"
+      height="400"
+      poster="{% static 'images/physiohome.jpg' %}"
+    >
+      <source src="{% static 'videos\VID-20250807-WA0004.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="event-info">
+    <div class="event-date">June 15, 2023 | 10:00 AM</div>
+    <h3 class="event-title">Back Pain Relief Workshop</h3>
+    <p class="event-description">
+      Learn practical techniques to manage and prevent chronic back pain.
+    </p>
+    <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="video-wrapper">
+        <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Videos Section -->
+    <section id="videos" class="media-section">
+      <h2 class="section-title">What Our Clients Say</h2>
+      <div class="videos-container">
+        <!-- Video 1 - Instagram Reel -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DIGgO75zrAD/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DIGgO75zrAD/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DIGf1YQTRL0/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DIGf1YQTRL0/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DIGbeJHzvFm/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DIGbeJHzvFm/?iutm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DHLkHcUJuqo/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DHLkHcUJuqo/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DGGIoLfM24g/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DGGIoLfM24g/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DF2hiEEprOg/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DF2hiEEprOg/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFt-x7_PTyY/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFt-x7_PTyY/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFmRuWCB13u/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFmRuWCB13u/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFj0LH3s7SY/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFj0LH3s7SY/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFhdaIlJ0Fr/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFhdaIlJ0Fr/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFHXFgmPboa/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFHXFgmPboa/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DFCyIQTqLZ2/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DFCyIQTqLZ2/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DEwLWNghak4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DEwLWNghak4/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DEFcexgiOMb/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DEFcexgiOMb/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DDpOaFpJvqg/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DDpOaFpJvqg/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DCbq0PEvHk7/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DCbq0PEvHk7/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">View Reel on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="video-info">
+            <div class="video-category">Home Treatment</div>
+            <h3 class="video-title">5 Essential Exercises for Back Pain</h3>
+            <p class="video-description">
+              Learn simple exercises you can do at home to alleviate back pain.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Modal -->
+      <div id="videoModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <div class="video-wrapper">
+            <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Function to show the selected section based on hash
+      function showSectionFromHash() {
+        // Hide all sections first
+        document.querySelectorAll(".media-section").forEach((section) => {
+          section.style.display = "none";
+        });
+
+        // Get the hash from URL
+        const hash = window.location.hash.substring(1);
+
+        // Show the corresponding section if hash exists and matches a section
+        if (hash && document.getElementById(hash)) {
+          document.getElementById(hash).style.display = "block";
+        } else {
+          // Default to showing gallery if no valid hash
+          document.getElementById("gallery").style.display = "block";
+        }
+      }
+
+      // Run on page load
+      document.addEventListener("DOMContentLoaded", function() {
+        showSectionFromHash();
+        // Load Instagram embed script
+        const instagramScript = document.createElement('script');
+        instagramScript.src = "//www.instagram.com/embed.js";
+        instagramScript.async = true;
+        document.body.appendChild(instagramScript);
+      });
+
+      // Also run when hash changes (like when using back/forward buttons)
+      window.addEventListener("hashchange", showSectionFromHash);
+
+      // Video play function
+      function playVideo(element, videoId) {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('videoFrame');
+        
+        // Set the video source
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        
+        // Show the modal
+        modal.style.display = 'block';
+        
+        // Prevent scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // Close modal function
+      function closeModal() {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('videoFrame');
+        
+        // Stop the video
+        iframe.src = '';
+        
+        // Hide the modal
+        modal.style.display = 'none';
+        
+        // Restore scrolling
+        document.body.style.overflow = 'auto';
+      }
+      
+      // Close modal when clicking outside the content
+      window.onclick = function(event) {
+        const modal = document.getElementById('videoModal');
+        if (event.target == modal) {
+          closeModal();
+        }
+      }
+
+
+      // Image modal functions
+  function openImageModal(src, alt) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const captionText = document.getElementById('caption');
+    
+    modal.style.display = "block";
+    modalImg.src = src;
+    captionText.innerHTML = alt;
+    
+    // Prevent scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.style.display = "none";
+    
+    // Restore scrolling
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal when clicking outside the image
+  window.onclick = function(event) {
+    const modal = document.getElementById('imageModal');
+    if (event.target == modal) {
+      closeImageModal();
+    }
+  }
+    </script>
+  </body>
+</html>
+{% endblock %}

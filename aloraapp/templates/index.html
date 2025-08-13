@@ -1,0 +1,1157 @@
+{% extends 'base.html' %} {% block title %}ALO PHYSIO{% endblock %} {% block content %}
+{% load static %}
+<!-- Hero Section -->
+<style>
+  /* Hero Section Styles */
+  .hero {
+    background: #F0F0F0;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-text {
+    z-index: 2;
+  }
+
+  .hero-subtitle {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .hero-title {
+    font-size: 48px;
+    color: #333;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+  }
+
+  .hero-description {
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .cta-button {
+    background-color: #71286f;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+  }
+
+  .cta-button:hover {
+    background-color: #891d85;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 58, 95, 0.3);
+  }
+
+  .hero-image {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-section {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #eed9ed 0%, #71286f 100%);
+    border-radius: 24px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .content {
+    flex: 1;
+    max-width: 600px;
+    margin-left: 10px;
+  }
+
+  .about-title {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #000;
+    margin-bottom: 30px;
+    letter-spacing: -0.02em;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #000;
+    margin-bottom: 30px;
+  }
+
+  .image-credit {
+    font-size: 0.85rem;
+    color: #9b8a7a;
+  }
+
+  .image-credit a {
+    color: #8b6f47;
+    text-decoration: underline;
+  }
+
+  .image-container {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .circle-frame {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .inner-circle {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background-color: #f8f4f0;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  /* treatment section css */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #F0F0F0;
+  }
+
+  .services-section {
+    background: linear-gradient(135deg, #F0F0F0 0%, #F0F0F0 100%);
+    padding: 80px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .services-title {
+    color: rgb(6, 6, 6);
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+    letter-spacing: 2px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    max-width: 1400px;
+    width: 100%;
+  }
+
+  .service-card {
+    background: linear-gradient(135deg, #e8eeee 0%, #e4eff0 100%);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .service-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid #f0f0f0;
+  }
+
+  .service-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .know-more-btn {
+    background: linear-gradient(135deg, #71286f 0%, #71286f 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .know-more-btn:hover {
+    background: linear-gradient(135deg, #71286f 0%, #71286f 100%);
+    transform: scale(1.05);
+  }
+
+  /* testimonial section */
+  .testimonial-container {
+    max-width: 1600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    margin: 30px auto;
+  }
+
+  .testimonial-slider {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .testimonial-slide {
+    min-width: 100%;
+    background: linear-gradient(135deg, #674466, #583c57);
+    color: white;
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  .quote-icon {
+    font-size: 60px;
+    color: #f39c12;
+    margin-bottom: 30px;
+    opacity: 0.8;
+  }
+
+  .testimonial-text {
+    font-size: 24px;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 40px;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+  }
+
+  .author {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f39c12;
+    margin-bottom: 5px;
+  }
+
+  .position {
+    font-size: 14px;
+    color: #bdc3c7;
+    opacity: 0.8;
+  }
+
+  .navigation {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-btn:hover {
+    background: rgba(243, 156, 18, 0.8);
+    border-color: #f39c12;
+    transform: scale(1.1);
+  }
+
+  .nav-btn:active {
+    transform: scale(0.95);
+  }
+
+  .dots-container {
+    display: flex;
+    gap: 10px;
+    margin: 0 20px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: #f39c12;
+    transform: scale(1.2);
+  }
+
+  .dot:hover {
+    background: rgba(243, 156, 18, 0.7);
+  }
+
+  .slide-counter {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: white;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+    }
+
+    .about-section {
+      padding: 50px;
+      gap: 60px;
+    }
+
+    .circle-frame {
+      width: 300px;
+      height: 300px;
+    }
+
+    .inner-circle {
+      width: 240px;
+      height: 240px;
+      top: 30px;
+      left: 30px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+
+    .hero-text {
+      order: 1;
+    }
+
+    .hero-image {
+      order: 2;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .about-section {
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 30px;
+      gap: 40px;
+    }
+
+    .content {
+      margin-left: 0;
+      max-width: 100%;
+    }
+
+    .about-title {
+      font-size: 2.8rem;
+    }
+
+    .testimonial-slide {
+      padding: 60px 40px;
+    }
+
+    .testimonial-text {
+      font-size: 22px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: auto;
+      padding: 80px 0;
+    }
+
+    .hero-title {
+      font-size: 36px;
+    }
+
+    .hero-description,
+    .hero-subtitle {
+      font-size: 16px;
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .services-title {
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+
+    .service-card {
+      padding: 20px 15px;
+    }
+
+    .service-image {
+      width: 100px;
+      height: 100px;
+    }
+
+    .about-title {
+      font-size: 2.5rem;
+    }
+
+    .circle-frame {
+      width: 280px;
+      height: 280px;
+    }
+
+    .inner-circle {
+      width: 220px;
+      height: 220px;
+      top: 30px;
+      left: 30px;
+    }
+
+    .testimonial-slide {
+      padding: 50px 30px;
+      min-height: 350px;
+    }
+
+    .testimonial-text {
+      font-size: 20px;
+    }
+
+    .quote-icon {
+      font-size: 40px;
+    }
+
+    .navigation {
+      bottom: 20px;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      padding: 12px 25px;
+      font-size: 14px;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .services-title {
+      font-size: 1.8rem;
+    }
+
+    .services-section {
+      padding: 60px 15px;
+    }
+
+    .about-title {
+      font-size: 2rem;
+    }
+
+    .about-section {
+      padding: 30px 20px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .circle-frame {
+      width: 240px;
+      height: 240px;
+    }
+
+    .inner-circle {
+      width: 190px;
+      height: 190px;
+      top: 25px;
+      left: 25px;
+    }
+
+    .testimonial-slide {
+      padding: 40px 20px;
+      min-height: 300px;
+    }
+
+    .testimonial-text {
+      font-size: 18px;
+    }
+
+    .author {
+      font-size: 16px;
+    }
+
+    .position {
+      font-size: 12px;
+    }
+
+    .slide-counter {
+      top: 20px;
+      right: 20px;
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .hero-title {
+      font-size: 26px;
+    }
+
+    .hero-content {
+      padding: 0 15px;
+    }
+
+    .about-title {
+      font-size: 1.8rem;
+    }
+
+    .testimonial-text {
+      font-size: 16px;
+    }
+
+    .quote-icon {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .services-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .services-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .service-card {
+    background: #e2dddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .service-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .service-title {
+    padding: 15px;
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .know-more-btn {
+    background: #71286f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+  .know-more-btn:hover {
+    background: #0052a3;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* For odd number of items - center the last one */
+  .service-card:last-child:nth-child(3n - 2) {
+    grid-column: 2;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    /* Center last item if odd number in 2-column layout */
+    .service-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      max-width: 300px;
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <p class="hero-subtitle">WELCOME TO ALO PHYSIO</p>
+      <h1 class="hero-title">
+        Live Better Every Day  With Adaptive Living Optimization
+      </h1>
+      <p class="hero-description">
+      "Physiotherapy – Healing Through Motion"
+      </p>
+      <!-- <a href="booking/"
+        ><button class="cta-button">Make an Appointment</button></a> -->
+    </div>
+    <div class="hero-image">
+      <img
+        src="{% static 'images\physiohome.jpg' %}"
+        alt="Healthcare Professional"
+      />
+    </div>
+  </div>
+</section>
+
+<div class="bg-decoration"></div>
+
+<div class="about-section">
+  <div class="content">
+    <h2 class="about-title">About Us</h2>
+    <p class="about-text">
+    ALO PHYSIO CENTRE, under Alora International Pvt. Ltd. (est. 2023), is committed to delivering personalized physiotherapy and mental wellness care, with a special focus on the elderly and individuals with chronic pain. We blend modern physiotherapy techniques with emotional support to promote holistic healing and improved quality of life.
+    </p>
+    <p class="about-text">
+      Rooted in our belief that healthcare is not just about treatment but a
+      journey toward better living, we provide a holistic range of services that
+      address physical rehabilitation, mobility restoration, and mental
+      wellness. Our integrated care model is thoughtfully designed to cater to
+      the unique challenges of geriatric health, combining modern physiotherapy
+      techniques with emotional and psychological support.
+    </p>
+     
+  </div>
+
+  <div class="image-container">
+    <div class="circle-frame">
+      <div class="inner-circle">
+        <img
+          src="https://miro.medium.com/v2/resize:fit:1358/1*fToieqB7I23JUV_g6VqhBQ.jpeg"
+          alt="Woman with pet"
+          class="profile-image"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="services-section">
+  <h2 class="services-title">OUR SERVICES</h2>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <img
+        src="https://img.freepik.com/premium-photo/physiotherapist-performing-mobility-exercises-on-the-leg-of-a-patient-lying-on-a-stretcher_594511-101.jpg?size=626&ext=jpg"
+        alt="Spinal Decompression Therapy"
+        class="service-image"
+      />
+      <h3 class="service-title">Orthopedic</h3>
+      <a href="{% url 'services' %}#orthopedic"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+
+    <div class="service-card">
+      <img
+        src="https://kbo-iak.de/fileadmin/user_upload/iStock-1199908661.jpg"
+        alt="Shockwave"
+        class="service-image"
+      />
+      <h3 class="service-title">Neurological</h3>
+      <a href="{% url 'services' %}#neurological"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+
+    <div class="service-card">
+      <img
+        src="https://img.physicalmedicinecorona.com/img/patah-tulang/192/proses-penyembuhan-patah-tulang.jpg"
+        alt="McKenzie Method"
+        class="service-image"
+      />
+      <h3 class="service-title">Post-Surgical</h3>
+      <a href="{% url 'services' %}#post-surgical"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+
+    <div class="service-card">
+      <img
+        src="https://d.newsweek.com/en/full/1592805/physical-rehabilitation-centers-2020.jpg"
+        alt="Vestibular Rehab (Vertigo)"
+        class="service-image"
+      />
+      <h3 class="service-title">Geriatric Physio</h3>
+      <a href="{% url 'services' %}#geriatric"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+
+    <!-- <div class="service-card">
+      <img
+        src="https://www.waldeneatingdisorders.com/wp-content/uploads/2019/05/iStock-468935686.jpg"
+        alt="Naturopathy"
+        class="service-image"
+      />
+      <h3 class="service-title">Sports Injury</h3>
+      <a href="{% url 'services' %}#sports"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div> -->
+
+    <div class="service-card">
+      <img
+        src="https://avatars.mds.yandex.net/i?id=c2d8baa5a05b06ef131709ca5cfb983b40fd9ca4-10727636-images-thumbs&n=13"
+        alt="Acupuncture"
+        class="service-image"
+      />
+      <h3 class="service-title">Home Physiotherapy</h3>
+      <a href="{% url 'services' %}#hom"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+
+    <div class="service-card">
+      <img
+        src="https://media.timeout.com/images/105604859/image.jpg"
+        alt="Massage therapy"
+        class="service-image"
+      />
+      <h3 class="service-title">Mind & Body Wellness program</h3>
+      <a href="{% url 'services' %}#pediatric"
+        ><button class="know-more-btn">KNOW MORE</button></a
+      >
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="testimonial-container">
+    <div class="slide-counter">
+      <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
+    </div>
+
+    <div class="testimonial-slider" id="slider">
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          Very good treatment recieved from Aldrin sunny. Very patient in
+          understanding the cause for pain and gave almost 45minutes session
+          every day. Cost is comparitively lower compared to other centres.
+        </div>
+        <div class="author">Sukumaran Dharman</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          I was thoroughly impressed by the exceptional physiotherapy services
+          provided by ALO Physio Centre for my mother-in-law following her knee
+          replacement surgery. Their entire team demonstrated unwavering
+          dedication and professionalism, delivering outstanding care throughout
+          the process. I wholeheartedly recommend this team for all types of
+          physiotherapy needs. Thank you.
+        </div>
+        <div class="author">punit k</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          Had a good physio therapy sessions for my tennis elbow pain. Good care
+          and treatment was provided. Dr Deepa attended to me very patiently and
+          kindly. Continue your service more to the society.
+        </div>
+        <div class="author">Shohha Prabhu Prabhu</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          Had my right shoulder pain since long which got resolved within just
+          few sessions, excellent patient care.
+        </div>
+        <div class="author">Shreevidya R Y</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          I had severe back pain and i visited this physiotherapy clinic and i
+          have got the best treatment, now the back pain has come down to
+          normal.
+        </div>
+        <div class="author">BHARATH Y R</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          It was really a great treatment i got in physio and nice service
+          Thanks to that.
+        </div>
+        <div class="author">Tejaswini .s</div>
+      </div>
+
+      <div class="testimonial-slide">
+        <div class="quote-icon">"</div>
+        <div class="testimonial-text">
+          I had an amazing experience at Alo Physio centre. The staff were
+          friendly and knowledgeable. They took the time to understand my needs
+          and created a personalized treatment plan that really worked for me.
+          The facilities were clean and well-equipped, and I appreciated the
+          flexibility of being able to book appointments at a time that suited
+          me.
+        </div>
+        <div class="author">alen varghese</div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button class="nav-btn" id="prevBtn">‹</button>
+      <div class="dots-container" id="dotsContainer">
+        <div class="dot active" data-slide="0"></div>
+        <div class="dot" data-slide="1"></div>
+        <div class="dot" data-slide="2"></div>
+        <div class="dot" data-slide="3"></div>
+        <div class="dot" data-slide="4"></div>
+        <div class="dot" data-slide="5"></div>
+        <div class="dot" data-slide="6"></div>
+      </div>
+      <button class="nav-btn" id="nextBtn">›</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function scrollToServices() {
+    const button = document.querySelector(".cta-button");
+    button.style.transform = "scale(0.95)";
+    setTimeout(() => {
+      button.style.transform = "scale(1)";
+      alert("This would normally scroll to the services section!");
+    }, 150);
+  }
+
+  window.addEventListener("scroll", () => {
+    const scrolled = window.pageYOffset;
+    const elements = document.querySelectorAll(".floating-elements");
+    elements.forEach((element, index) => {
+      const speed = 0.5 + index * 0.2;
+      element.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  });
+
+  window.addEventListener("load", () => {
+    const content = document.querySelector(".content");
+    const image = document.querySelector(".image-container");
+
+    content.style.opacity = "0";
+    content.style.transform = "translateX(-50px)";
+    image.style.opacity = "0";
+    image.style.transform = "translateX(50px)";
+
+    setTimeout(() => {
+      content.style.transition = "all 0.8s ease";
+      content.style.opacity = "1";
+      content.style.transform = "translateX(0)";
+
+      setTimeout(() => {
+        image.style.transition = "all 0.8s ease";
+        image.style.opacity = "1";
+        image.style.transform = "translateX(0)";
+      }, 200);
+    }, 100);
+  });
+
+  document.querySelectorAll(".know-more-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const serviceTitle =
+        this.parentElement.querySelector(".service-title").textContent;
+      alert(`Learn more about: ${serviceTitle}`);
+    });
+  });
+
+  window.addEventListener("load", function () {
+    const cards = document.querySelectorAll(".service-card");
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+        card.style.transition = "all 0.6s ease";
+
+        setTimeout(() => {
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, 100);
+      }, index * 100);
+    });
+  });
+
+  class TestimonialSlider {
+    constructor() {
+      this.slider = document.getElementById("slider");
+      this.slides = document.querySelectorAll(".testimonial-slide");
+      this.dots = document.querySelectorAll(".dot");
+      this.prevBtn = document.getElementById("prevBtn");
+      this.nextBtn = document.getElementById("nextBtn");
+      this.currentSlideSpan = document.getElementById("currentSlide");
+      this.totalSlidesSpan = document.getElementById("totalSlides");
+
+      this.currentSlide = 0;
+      this.totalSlides = this.slides.length;
+
+      this.init();
+    }
+
+    init() {
+      this.totalSlidesSpan.textContent = this.totalSlides;
+      this.updateSlider();
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      this.prevBtn.addEventListener("click", () => this.prevSlide());
+      this.nextBtn.addEventListener("click", () => this.nextSlide());
+
+      this.dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => this.goToSlide(index));
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") this.prevSlide();
+        if (e.key === "ArrowRight") this.nextSlide();
+      });
+
+      let startX = 0;
+      let endX = 0;
+
+      this.slider.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+      });
+
+      this.slider.addEventListener("touchend", (e) => {
+        endX = e.changedTouches[0].clientX;
+        this.handleSwipe();
+      });
+    }
+
+    handleSwipe() {
+      const difference = startX - endX;
+      const threshold = 50;
+
+      if (Math.abs(difference) > threshold) {
+        if (difference > 0) {
+          this.nextSlide();
+        } else {
+          this.prevSlide();
+        }
+      }
+    }
+
+    updateSlider() {
+      const translateX = -this.currentSlide * 100;
+      this.slider.style.transform = `translateX(${translateX}%)`;
+
+      this.dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === this.currentSlide);
+      });
+
+      this.currentSlideSpan.textContent = this.currentSlide + 1;
+
+      this.slides[this.currentSlide].style.animation = "slideIn 0.6s ease-out";
+    }
+
+    nextSlide() {
+      this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+      this.updateSlider();
+    }
+
+    prevSlide() {
+      this.currentSlide =
+        (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+      this.updateSlider();
+    }
+
+    goToSlide(index) {
+      this.currentSlide = index;
+      this.updateSlider();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    new TestimonialSlider();
+  });
+
+  const style = document.createElement("style");
+  style.textContent = `
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+  document.head.appendChild(style);
+</script>
+{% endblock %}
