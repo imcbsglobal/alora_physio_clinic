@@ -554,212 +554,244 @@
     </div>
 
     <script>
-        // Configuration
-        const CLINIC_WHATSAPP_NUMBER = '918129139506';
-        const REDIRECT_DELAY = 3000; // 3 seconds delay before redirect
-        
-        // WhatsApp API Configuration
-        const WHATSAPP_API = {
-            baseUrl: 'https://app.dxing.in/api/send/whatsapp',
-            secret: '9849fe0266d35fa839625d27d19ce8d970462a9d',
-            account: '1753936838ed3d2c21991e3bef5e069713af9fa6ca688af3c6b8674'
-        };
+    // Configuration
+    const CLINIC_WHATSAPP_NUMBER = '918129139506';
+    const REDIRECT_DELAY = 3000; // 3 seconds delay before redirect
+    const BUSINESS_NAME = 'ALO PHYSIO';
+    
+    // WhatsApp API Configuration
+    const WHATSAPP_API = {
+        baseUrl: 'https://app.dxing.in/api/send/whatsapp',
+        secret: '9849fe0266d35fa839625d27d19ce8d970462a9d',
+        account: '1754801989ed3d2c21991e3bef5e069713af9fa6ca689827453c82e'
+    };
 
-        // Format date as DD/MM/YYYY
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
+    // Format date as DD/MM/YYYY
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    // Format time to 12-hour format
+    function formatTime12Hour(timeString) {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const displayHour = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+        return `${displayHour}:${String(minutes).padStart(2, '0')} ${period}`;
+    }
+
+    // Generate time slots (9am to 5pm, every 30 minutes)
+    function generateTimeSlots() {
+        const slots = [];
+        for (let hour = 9; hour < 17; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+                const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                slots.push({
+                    value: timeString,
+                    display: formatTime12Hour(timeString)
+                });
+            }
         }
+        return slots;
+    }
 
-        // Format time to 12-hour format
-        function formatTime12Hour(hour, minute) {
-            const period = hour >= 12 ? 'PM' : 'AM';
-            const displayHour = hour > 12 ? hour - 12 : (hour === 0 ? 12 : hour);
-            return `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set minimum date to today
-            const dateInput = document.getElementById('date');
+    // Initialize the booking system
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set minimum date to today
+        const dateInput = document.getElementById('date');
+        if (dateInput) {
             const today = new Date().toISOString().split('T')[0];
             dateInput.min = today;
-            
-            // Generate time slots when date is selected
             dateInput.addEventListener('change', updateTimeSlots);
+        }
+
+        // Initialize time slots
+        updateTimeSlots();
+
+        // Form submission handler
+        const bookingForm = document.getElementById('physioBookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', handleFormSubmission);
+        }
+    });
+
+    // Update available time slots based on selected date
+    function updateTimeSlots() {
+        const timeSelect = document.getElementById('time');
+        if (!timeSelect) return;
+
+        // Clear existing options except default
+        while (timeSelect.options.length > 1) {
+            timeSelect.remove(1);
+        }
+
+        // Add generated time slots
+        const timeSlots = generateTimeSlots();
+        timeSlots.forEach(slot => {
+            const option = new Option(slot.display, slot.value);
+            timeSelect.add(option);
+        });
+    }
+
+    // Handle form submission
+    async function handleFormSubmission(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        toggleLoading(true);
+
+        // Validate form
+        if (!validateForm()) {
+            toggleLoading(false);
+            return;
+        }
+
+        // Get form data
+        const formData = getFormData();
+
+        try {
+            // Send messages
+            await sendClinicNotification(formData);
+            await sendPatientConfirmation(formData);
+
+            // Show success and reset form
+            showSuccess();
+            resetForm();
+
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, REDIRECT_DELAY);
+
+        } catch (error) {
+            console.error('Booking error:', error);
+            showError('Error submitting form. Please try again.');
+        } finally {
+            toggleLoading(false);
+        }
+    }
+
+    // Validate form fields
+    function validateForm() {
+        let isValid = true;
+        const fields = ['name', 'mobile', 'branch', 'service', 'date', 'time'];
+
+        fields.forEach(field => {
+            const element = document.getElementById(field);
+            const errorElement = document.getElementById(`${field}Error`);
             
-            // Form submission
-            const bookingForm = document.getElementById('physioBookingForm');
-            
-            if (!bookingForm) {
-                console.error('Error: Booking form not found');
-                return;
+            if (!element || !element.value) {
+                showFieldError(errorElement, 'This field is required');
+                isValid = false;
+            } else if (field === 'mobile' && !/^\d{10,15}$/.test(element.value)) {
+                showFieldError(errorElement, 'Invalid phone number');
+                isValid = false;
+            } else if (errorElement) {
+                errorElement.textContent = '';
             }
-
-            bookingForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Show loading immediately
-                document.getElementById('loadingOverlay').style.display = 'flex';
-                
-                // Simple validation
-                const requiredFields = ['name', 'mobile', 'branch', 'service', 'date', 'time'];
-                let isValid = true;
-                
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field);
-                    if (!element || !element.value) {
-                        showError(field + 'Error', 'This field is required');
-                        isValid = false;
-                    }
-                });
-
-                if (!isValid) {
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    return;
-                }
-
-                const formData = {
-                    name: document.getElementById('name').value.trim(),
-                    mobile: document.getElementById('mobile').value.trim(),
-                    branch: document.getElementById('branch').value,
-                    service: document.getElementById('service').value,
-                    date: document.getElementById('date').value,
-                    time: document.getElementById('time').value
-                };
-
-                try {
-                    // Format dates and times
-                    const formattedDate = formatDate(formData.date);
-                    const [hours, minutes] = formData.time.split(':').map(Number);
-                    const formattedTime = formatTime12Hour(hours, minutes);
-                    
-                    // Clinic message
-                    const clinicMessage = `New booking received:\n\n` +
-                        `Patient: ${formData.name}\n` +
-                        `Contact: ${formData.mobile}\n` +
-                        `Service: ${formData.service}\n` +
-                        `Location: ${formData.branch}\n` +
-                        `Date: ${formattedDate}\n` +
-                        `Time: ${formattedTime}\n\n` +
-                        `.....`;
-                    
-                    const clinicUrl = `${WHATSAPP_API.baseUrl}?` +
-                        `secret=${WHATSAPP_API.secret}&` +
-                        `account=${WHATSAPP_API.account}&` +
-                        `recipient=${CLINIC_WHATSAPP_NUMBER}&` +
-                        `type=text&` +
-                        `message=${encodeURIComponent(clinicMessage)}&` +
-                        `priority=1`;
-                    
-                    await fetch(clinicUrl);
-
-                    // Patient confirmation message
-                    const patientMessage = `Hello ${formData.name},\n\n` +
-                    `Thank you for booking with ALO PHYSIO !\n\n` +
-                        `Your booking is confirmed for ${formattedDate} at ${formattedTime}.\n\n` +
-                        `Booking Details:\n` +
-                        `- Service: ${formData.service}\n` +
-                        `- Location: ${formData.branch}\n\n` +
-                        `If you have any questions, contact us at ${CLINIC_WHATSAPP_NUMBER}.\n\n` +
-                        `We look forward to serving you!\n\n` +
-                        `- ALO PHYSIO Health`;
-                    
-                    const patientUrl = `${WHATSAPP_API.baseUrl}?` +
-                        `secret=${WHATSAPP_API.secret}&` +
-                        `account=${WHATSAPP_API.account}&` +
-                        `recipient=${formData.mobile}&` +
-                        `type=text&` +
-                        `message=${encodeURIComponent(patientMessage)}&` +
-                        `priority=1`;
-                    
-                    await fetch(patientUrl);
-
-                    // Show success
-                    document.getElementById('successMessage').style.display = 'block';
-                    bookingForm.reset();
-                    
-                    // Clear time slots
-                    const timeSelect = document.getElementById('time');
-                    while (timeSelect.options.length > 1) {
-                        timeSelect.remove(1);
-                    }
-                    
-                    // Redirect after delay
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, REDIRECT_DELAY);
-
-                } catch (error) {
-                    console.error('Submission error:', error);
-                    alert('Error submitting form. Please try again.');
-                } finally {
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                }
-            });
-            
-            // Initialize time slots
-            updateTimeSlots();
         });
 
-        // Function to update available time slots
-        function updateTimeSlots() {
-            const dateInput = document.getElementById('date');
-            const timeSelect = document.getElementById('time');
-            
-            // Clear existing options except the first one
-            while (timeSelect.options.length > 1) {
-                timeSelect.remove(1);
-            }
-            
-            // Only proceed if a date is selected
-            if (!dateInput.value) return;
-            
-            // Generate time slots (every 30 minutes from 9am to 5pm)
-            const startHour = 9;
-            const endHour = 17;
-            
-            for (let hour = startHour; hour < endHour; hour++) {
-                for (let minute = 0; minute < 60; minute += 30) {
-                    const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    const displayTime = formatTime12Hour(hour, minute);
-                    const option = document.createElement('option');
-                    option.value = timeString;
-                    option.textContent = displayTime;
-                    timeSelect.appendChild(option);
-                }
-            }
-        }
+        return isValid;
+    }
 
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.textContent = message;
-                
-                // Add shake animation to parent form group
-                const formGroup = errorElement.closest('.form-group');
-                if (formGroup) {
-                    formGroup.style.animation = 'shake 0.5s';
-                    setTimeout(() => {
-                        formGroup.style.animation = '';
-                    }, 500);
-                }
-            }
-        }
+    // Get form data as object
+    function getFormData() {
+        return {
+            name: document.getElementById('name').value.trim(),
+            mobile: document.getElementById('mobile').value.trim(),
+            branch: document.getElementById('branch').value,
+            service: document.getElementById('service').value,
+            date: document.getElementById('date').value,
+            time: document.getElementById('time').value
+        };
+    }
 
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-5px); }
-                75% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+    // Send notification to clinic
+    async function sendClinicNotification(formData) {
+        const formattedDate = formatDate(formData.date);
+        const formattedTime = formatTime12Hour(formData.time);
+
+        const message = `New booking received:\n\n` +
+            `Patient: ${formData.name}\n` +
+            `Contact: ${formData.mobile}\n` +
+            `Service: ${formData.service}\n` +
+            `Location: ${formData.branch}\n` +
+            `Date: ${formattedDate}\n` +
+            `Time: ${formattedTime}\n\n` +
+            `.....`;
+
+        const url = buildWhatsAppUrl(CLINIC_WHATSAPP_NUMBER, message);
+        await fetch(url);
+    }
+
+    // Send confirmation to patient
+    async function sendPatientConfirmation(formData) {
+        const formattedDate = formatDate(formData.date);
+        const formattedTime = formatTime12Hour(formData.time);
+
+        const message = `Hello ${formData.name},\n\n` +
+            `Thank you for booking with ${BUSINESS_NAME}!\n\n` +
+            `Your booking is confirmed for ${formattedDate} at ${formattedTime}.\n\n` +
+            `Booking Details:\n` +
+            `- Service: ${formData.service}\n` +
+            `- Location: ${formData.branch}\n\n` +
+            `If you have any questions, contact us at ${CLINIC_WHATSAPP_NUMBER}.\n\n` +
+            `We look forward to serving you!\n\n` +
+            `- ${BUSINESS_NAME} Team`;
+
+        const url = buildWhatsAppUrl(formData.mobile, message);
+        await fetch(url);
+    }
+
+    // Build WhatsApp API URL
+    function buildWhatsAppUrl(recipient, message) {
+        return `${WHATSAPP_API.baseUrl}?` +
+            `secret=${WHATSAPP_API.secret}&` +
+            `account=${WHATSAPP_API.account}&` +
+            `recipient=${recipient}&` +
+            `type=text&` +
+            `message=${encodeURIComponent(message)}&` +
+            `priority=1`;
+    }
+
+    // Show field error
+    function showFieldError(element, message) {
+        if (element) {
+            element.textContent = message;
+            element.closest('.form-group')?.classList.add('error');
+        }
+    }
+
+    // Show general error
+    function showError(message) {
+        alert(message); // Replace with your error display logic
+    }
+
+    // Show success message
+    function showSuccess() {
+        const successElement = document.getElementById('successMessage');
+        if (successElement) {
+            successElement.style.display = 'block';
+        }
+    }
+
+    // Reset form
+    function resetForm() {
+        const form = document.getElementById('physioBookingForm');
+        if (form) form.reset();
+        updateTimeSlots();
+    }
+
+    // Toggle loading state
+    function toggleLoading(show) {
+        const loader = document.getElementById('loadingOverlay');
+        if (loader) {
+            loader.style.display = show ? 'flex' : 'none';
+        }
+    }
+</script>
 </body>
 </html>
