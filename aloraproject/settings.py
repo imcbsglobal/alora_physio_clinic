@@ -81,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': 'alora',  # Replace with your database name
-        'NAME': 'alora_db',  # Replace with your database name
+        'NAME': 'alora_web',  # Replace with your database name
         'USER': 'postgres',  # Replace with your database username
         # 'PASSWORD': '1234',  # Replace with your database password
         'PASSWORD': 'info@imc',  # Replace with your database password
