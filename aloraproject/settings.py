@@ -83,7 +83,7 @@ DATABASES = {
         # 'NAME': 'alora',  # Replace with your database name
         'NAME': 'alora_web',  # Replace with your database name
         'USER': 'postgres',  # Replace with your database username
-        # 'PASSWORD': '1234',  # Replace with your database password
+        # 'PASSWORD': '1234',  # Replace with your database password/
         'PASSWORD': 'info@imc',  # Replace with your database password
         'HOST': 'localhost',  # For local development, use 'localhost' or '127.0.0.1'
         'PORT': '5432',  # Default PostgreSQL port is 5432
