@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-3*x!3_%b^@g9)21#2pv994m)g7y#ft*=s=4ng@p_6ujg)zji!r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['192.168.1.27', 'localhost', '127.0.0.1','www.alophysio.com','alophysio.com']
+ALLOWED_HOSTS = ['192.168.1.27', 'localhost', '127.0.0.1','www.alophysio.com','alophysio.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://alophysio.com',
@@ -84,11 +83,11 @@ WSGI_APPLICATION = 'aloraproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'alora',  # Replace with your database name
-        # 'NAME': 'alora_web',  # Replace with your database name
+        # 'NAME': 'alora',  # Replace with your database name
+        'NAME': 'alora_web',  # Replace with your database name
         'USER': 'postgres',  # Replace with your database username
-        'PASSWORD': '1234',  # Replace with your database password/
-        # 'PASSWORD': 'info@imc',  # Replace with your database password
+        # 'PASSWORD': '1234',  # Replace with your database password/
+        'PASSWORD': 'info@imc',  # Replace with your database password
         'HOST': 'localhost',  # For local development, use 'localhost' or '127.0.0.1'
         'PORT': '5432',  # Default PostgreSQL port is 5432
     }
