@@ -637,42 +637,83 @@
     }
 
     // Handle form submission
-    async function handleFormSubmission(e) {
-        e.preventDefault();
-        
-        // Show loading state
-        toggleLoading(true);
+    // Handle form submission
+async function handleFormSubmission(e) {
+    e.preventDefault();
+    
+    // Show loading state
+    toggleLoading(true);
 
-        // Validate form
-        if (!validateForm()) {
-            toggleLoading(false);
-            return;
+    // Validate form
+    if (!validateForm()) {
+        toggleLoading(false);
+        return;
+    }
+
+    // Get form data
+    const formData = getFormData();
+
+    try {
+        // First, save to database via API
+        const saveResponse = await saveBookingToDatabase(formData);
+        
+        if (!saveResponse.ok) {
+            throw new Error('Failed to save booking to database');
         }
 
-        // Get form data
-        const formData = getFormData();
+        // Then send messages
+        await sendClinicNotification(formData);
+        await sendPatientConfirmation(formData);
 
-        try {
-            // Send messages
-            await sendClinicNotification(formData);
-            await sendPatientConfirmation(formData);
+        // Show success and reset form
+        showSuccess();
+        resetForm();
 
-            // Show success and reset form
-            showSuccess();
-            resetForm();
+        // Redirect after delay
+        setTimeout(() => {
+            window.location.href = '/';
+        }, REDIRECT_DELAY);
 
-            // Redirect after delay
-            setTimeout(() => {
-                window.location.href = '/';
-            }, REDIRECT_DELAY);
+    } catch (error) {
+        console.error('Booking error:', error);
+        showError('Error submitting form. Please try again.');
+    } finally {
+        toggleLoading(false);
+    }
+}
 
-        } catch (error) {
-            console.error('Booking error:', error);
-            showError('Error submitting form. Please try again.');
-        } finally {
-            toggleLoading(false);
+// Add this new function to save to database
+async function saveBookingToDatabase(formData) {
+    const apiUrl = '/api/bookings/';
+    
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        return response;
+    } catch (error) {
+        console.error('Error saving to database:', error);
+        throw error;
+    }
+}
+
+// Add this helper function to get CSRF token
+function getCsrfToken() {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'csrftoken') {
+            return value;
         }
     }
+    return '';
+}
 
     // Validate form fields
     function validateForm() {

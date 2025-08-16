@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.utils import timezone
 
 class Booking(models.Model):
@@ -11,7 +8,7 @@ class Booking(models.Model):
     service = models.CharField(max_length=50, verbose_name="Service Type")
     date = models.DateField(verbose_name="Appointment Date")
     time = models.CharField(max_length=10, verbose_name="Appointment Time")
-    created_at = models.DateTimeField(auto_now_add=True)  # Changed from default=timezone.now
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Booking"
@@ -20,13 +17,6 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.service} on {self.date}"
-    
-
-
-
-
-
-    from django.db import models
 
 class ContactSubmission(models.Model):
     name = models.CharField(max_length=100)
