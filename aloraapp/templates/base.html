@@ -703,7 +703,7 @@
 <nav class="navbar fixed-navbar">
     <div class="nav-content">
         <div class="logo">
-            <img src="{% static 'images\LOGO ALORA LAV.jpg' %}" alt="Maana Health Logo" class="logo-img">
+            <img src="{% static 'images\aloo_Aloo Primary.png' %}" alt="Maana Health Logo" class="logo-img">
         </div>
 
         <!-- Mobile Menu Button -->
@@ -751,11 +751,11 @@
             <li><a href="{% url 'contact' %}" class="{% if 'contact' in request.path %}active{% endif %}">Contact</a></li>
             
             <!-- Login button for mobile menu -->
-            <li class="mobile-login-item">
+            <!-- <li class="mobile-login-item">
                 <a href="{% url 'login' %}" class="mobile-login-btn">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
-            </li>
+            </li> -->
         </ul>
         
        <div class="header-contact">
@@ -773,7 +773,7 @@
 
         
         <!-- Desktop login button -->
-        <a href="{% url 'login' %}" class="login-btn desktop-login">Login</a>
+        <!-- <a href="{% url 'login' %}" class="login-btn desktop-login">Login</a> -->
     </div>
 </nav>
 
@@ -1406,6 +1406,7 @@
                     <a href="{% url 'services' %}" class="footer-link">Services</a>
                     <a href="{% url 'media' %}" class="footer-link">Media</a>
                     <a href="{% url 'contact' %}" class="footer-link">Contact Us</a>
+                     <a href="{% url 'login' %}" class="footer-link">login</a>
                 </div>
                 <h3 class="footer-title">Contact Us</h3>
                     <a href="tel:8147635040" class="footer-link"><i class="fa-solid fa-phone"></i>&nbsp;8147635040</a>

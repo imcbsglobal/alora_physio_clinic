@@ -184,13 +184,10 @@
     background-color: #F0F0F0;
   }
 
-  .services-section {
-    background: linear-gradient(135deg, #F0F0F0 0%, #F0F0F0 100%);
+    .services-section {
     padding: 80px 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: #f9f9f9;
+    text-align: center;
   }
 
   .services-title {
@@ -202,12 +199,12 @@
     letter-spacing: 2px;
   }
 
-  .services-grid {
+   .services-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    max-width: 1400px;
-    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .service-card {
@@ -228,8 +225,8 @@
   }
 
   .service-image {
-    width: 120px;
-    height: 120px;
+    width: 170px;
+    height: 170px;
     border-radius: 10px;
     object-fit: cover;
     margin-bottom: 20px;
@@ -264,14 +261,26 @@
   }
 
   /* testimonial section */
+  .testimonial-section {
+    padding: 80px 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .testimonial-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 60px;
+    font-weight: 700;
+  }
+
   .testimonial-container {
-    max-width: 1600px;
-    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    margin: 30px auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
   }
 
   .testimonial-slider {
@@ -281,46 +290,95 @@
 
   .testimonial-slide {
     min-width: 100%;
-    background: linear-gradient(135deg, #674466, #583c57);
-    color: white;
-    padding: 80px 60px;
-    text-align: center;
-    position: relative;
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+    color: #333;
+    padding: 60px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    gap: 60px;
     min-height: 400px;
+  }
+
+  .testimonial-image {
+    flex: 1;
+    max-width: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonial-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .testimonial-image:hover img {
+    transform: scale(1.05);
+  }
+
+  .testimonial-content {
+    flex: 1;
+    padding: 20px;
   }
 
   .quote-icon {
     font-size: 60px;
-    color: #f39c12;
-    margin-bottom: 30px;
-    opacity: 0.8;
+    color: #71286f;
+    margin-bottom: 20px;
+    opacity: 0.7;
   }
 
   .testimonial-text {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1.6;
     font-style: italic;
-    margin-bottom: 40px;
-    max-width: 700px;
-    text-align: center;
+    margin-bottom: 30px;
     position: relative;
+    color: #555;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #71286f;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
   }
 
   .author {
     font-size: 18px;
     font-weight: 600;
-    color: #f39c12;
+    color: #71286f;
     margin-bottom: 5px;
   }
 
   .position {
     font-size: 14px;
-    color: #bdc3c7;
-    opacity: 0.8;
+    color: #777;
+  }
+
+  .slide-counter {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(113, 40, 111, 0.8);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: white;
   }
 
   .navigation {
@@ -334,8 +392,8 @@
   }
 
   .nav-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(113, 40, 111, 0.8);
+    border: none;
     color: white;
     width: 50px;
     height: 50px;
@@ -346,12 +404,10 @@
     justify-content: center;
     font-size: 18px;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
   }
 
   .nav-btn:hover {
-    background: rgba(243, 156, 18, 0.8);
-    border-color: #f39c12;
+    background: #891d85;
     transform: scale(1.1);
   }
 
@@ -369,31 +425,168 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(113, 40, 111, 0.3);
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .dot.active {
-    background: #f39c12;
+    background: #71286f;
     transform: scale(1.2);
   }
 
   .dot:hover {
-    background: rgba(243, 156, 18, 0.7);
+    background: rgba(113, 40, 111, 0.7);
   }
 
-  .slide-counter {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 14px;
-    color: white;
-    backdrop-filter: blur(10px);
-  }
+  /* home physiotherappy section */
+   * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .how-we-work-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .image-section {
+            position: relative;
+            text-align: center;
+        }
+
+        .main-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-section {
+            padding: 20px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .text-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .text-column p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #71286f 0%, #891d85 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(113, 40, 111, 0.3);
+        }
+
+        .learn-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(113, 40, 111, 0.4);
+            background: linear-gradient(135deg, #891d85 0%, #71286f 100%);
+        }
+
+        .learn-more-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 20px rgba(113, 40, 111, 0.3);
+        }
+
+        /* Decorative elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .floating-element.circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            top: 10%;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element.square {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #71286f 0%, #891d85 100%);
+            border-radius: 10px;
+            bottom: 10%;
+            left: -30px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
 
   /* Responsive Design */
   @media (max-width: 1200px) {
@@ -421,6 +614,15 @@
       height: 240px;
       top: 30px;
       left: 30px;
+    }
+    
+    .testimonial-slide {
+      padding: 50px;
+      gap: 40px;
+    }
+    
+    .testimonial-image {
+      max-width: 350px;
     }
   }
 
@@ -456,13 +658,35 @@
     .about-title {
       font-size: 2.8rem;
     }
-
+    
     .testimonial-slide {
-      padding: 60px 40px;
+      flex-direction: column;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .testimonial-image {
+      max-width: 100%;
+      margin-bottom: 30px;
+    }
+    
+    .author-info {
+      justify-content: center;
     }
 
-    .testimonial-text {
-      font-size: 22px;
+    .container {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+    
+    .section-title {
+      font-size: 3rem;
+    }
+    
+    .text-columns {
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
   }
 
@@ -515,28 +739,51 @@
       top: 30px;
       left: 30px;
     }
-
-    .testimonial-slide {
-      padding: 50px 30px;
-      min-height: 350px;
+    
+    .testimonial-title {
+      font-size: 2rem;
+      margin-bottom: 40px;
     }
-
+    
     .testimonial-text {
-      font-size: 20px;
+      font-size: 18px;
     }
-
+    
     .quote-icon {
       font-size: 40px;
     }
-
+    
     .navigation {
       bottom: 20px;
     }
-
+    
     .nav-btn {
       width: 40px;
       height: 40px;
       font-size: 16px;
+    }
+
+    .how-we-work-section {
+      padding: 60px 0;
+    }
+    
+    .container {
+      padding: 0 15px;
+      gap: 30px;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+    
+    .text-column p {
+      font-size: 0.95rem;
+    }
+    
+    .learn-more-btn {
+      padding: 12px 30px;
+      font-size: 0.9rem;
     }
   }
 
@@ -585,24 +832,28 @@
       top: 25px;
       left: 25px;
     }
-
+    
     .testimonial-slide {
-      padding: 40px 20px;
-      min-height: 300px;
+      padding: 30px 20px;
     }
-
+    
+    .testimonial-title {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+    
     .testimonial-text {
-      font-size: 18px;
+      font-size: 16px;
     }
-
+    
     .author {
       font-size: 16px;
     }
-
+    
     .position {
       font-size: 12px;
     }
-
+    
     .slide-counter {
       top: 20px;
       right: 20px;
@@ -610,130 +861,209 @@
     }
   }
 
-  @media (max-width: 400px) {
+  /* Mobile-specific adjustments */
+  @media (max-width: 480px) {
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
+    }
+    
     .hero-title {
-      font-size: 26px;
+      font-size: 28px;
+      margin-bottom: 15px;
     }
-
-    .hero-content {
-      padding: 0 15px;
+    
+    .hero-subtitle {
+      font-size: 14px;
+      margin-bottom: 10px;
     }
-
+    
+    .hero-description {
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+    
+    .cta-button {
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+    
+    /* About Section */
+    .about-section {
+      padding: 30px 15px;
+      flex-direction: column;
+      text-align: center;
+    }
+    
     .about-title {
-      font-size: 1.8rem;
+      font-size: 24px;
+      margin-bottom: 15px;
     }
-
-    .testimonial-text {
+    
+    .about-text {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .circle-frame {
+      width: 220px;
+      height: 220px;
+    }
+    
+    .inner-circle {
+      width: 180px;
+      height: 180px;
+      top: 20px;
+      left: 20px;
+    }
+    
+    /* Services Section */
+    .services-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 0 10px;
+    }
+    
+    .service-card {
+      padding: 25px 15px;
+    }
+    
+    .service-image {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .service-title {
       font-size: 16px;
     }
-
+    
+    /* Testimonial Section */
+    .testimonial-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .testimonial-slide {
+      padding: 30px 15px;
+      flex-direction: column;
+    }
+    
+    .testimonial-text {
+      font-size: 14px;
+    }
+    
     .quote-icon {
-      font-size: 30px;
+      font-size: 40px;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .author {
+      font-size: 16px;
+    }
+    
+    .position {
+      font-size: 12px;
+    }
+    
+    .slide-counter {
+      top: 15px;
+      right: 15px;
+      font-size: 12px;
+    }
+    
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+    
+    /* How We Work Section */
+    .section-title {
+      font-size: 24px;
       margin-bottom: 20px;
     }
-  }
+    
+    .section-title::after {
+      bottom: -10px;
+      width: 60px;
+      height: 3px;
+    }
+    
+    .text-column p {
+      font-size: 14px;
+      text-align: left;
+    }
+    
+    .learn-more-btn {
+      padding: 12px 25px;
+      font-size: 14px;
+    }
 
-  .services-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
-  }
-
-  .services-title {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: #333;
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .service-card {
-    background: #e2dddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-
-  .service-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .service-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-
-  .service-title {
-    padding: 15px;
-    font-size: 1.2rem;
-    color: #333;
-  }
-
-  .know-more-btn {
-    background: #71286f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-  }
-
-  .know-more-btn:hover {
-    background: #0052a3;
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 900px) {
-    .services-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .section-title {
+      font-size: 24px;
+    }
+    
+    .text-column p {
+      text-align: left;
+    }
+    
+    .floating-element {
+      display: none;
     }
   }
 
-  @media (max-width: 600px) {
-    .services-grid {
-      grid-template-columns: 1fr;
+  /* Very small devices (phones, 360px and down) */
+  @media (max-width: 360px) {
+    .hero-title {
+      font-size: 24px;
+    }
+    
+    .hero-content {
+      padding: 0 10px;
+    }
+    
+    .about-title {
+      font-size: 22px;
+    }
+    
+    .circle-frame {
+      width: 200px;
+      height: 200px;
+    }
+    
+    .inner-circle {
+      width: 160px;
+      height: 160px;
     }
   }
 
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  /* Prevent horizontal scrolling */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
-  /* For odd number of items - center the last one */
-  .service-card:last-child:nth-child(3n - 2) {
-    grid-column: 2;
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 900px) {
-    .services-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    /* Center last item if odd number in 2-column layout */
-    .service-card:last-child:nth-child(odd) {
-      grid-column: 1 / -1;
-      max-width: 300px;
-      justify-self: center;
+  /* Adjust button sizes for mobile */
+  @media (max-width: 480px) {
+    .know-more-btn, .cta-button, .learn-more-btn {
+      padding: 10px 20px;
+      font-size: 13px;
     }
   }
 
-  @media (max-width: 600px) {
-    .services-grid {
-      grid-template-columns: 1fr;
-    }
+  /* Make sure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
   }
 </style>
 
@@ -742,13 +1072,13 @@
     <div class="hero-text">
       <p class="hero-subtitle">WELCOME TO ALO PHYSIO</p>
       <h1 class="hero-title">
-        Live Better Every Day  With Adaptive Living Optimization
+        Live Better Every Day With Adaptive Living Optimization
       </h1>
       <p class="hero-description">
       "Physiotherapy – Healing Through Motion"
       </p>
-      <!-- <a href="booking/"
-        ><button class="cta-button">Make an Appointment</button></a> -->
+      <a href="booking/"
+        ><button class="cta-button">Make an Appointment</button></a>
     </div>
     <div class="hero-image">
       <img
@@ -775,7 +1105,6 @@
       the unique challenges of geriatric health, combining modern physiotherapy
       techniques with emotional and psychological support.
     </p>
-     
   </div>
 
   <div class="image-container">
@@ -798,7 +1127,7 @@
     <div class="service-card">
       <img
         src="https://img.freepik.com/premium-photo/physiotherapist-performing-mobility-exercises-on-the-leg-of-a-patient-lying-on-a-stretcher_594511-101.jpg?size=626&ext=jpg"
-        alt="Spinal Decompression Therapy"
+        alt="Orthopedic Physiotherapy"
         class="service-image"
       />
       <h3 class="service-title">Orthopedic</h3>
@@ -810,7 +1139,7 @@
     <div class="service-card">
       <img
         src="https://kbo-iak.de/fileadmin/user_upload/iStock-1199908661.jpg"
-        alt="Shockwave"
+        alt="Neurological Physiotherapy"
         class="service-image"
       />
       <h3 class="service-title">Neurological</h3>
@@ -822,7 +1151,7 @@
     <div class="service-card">
       <img
         src="https://img.physicalmedicinecorona.com/img/patah-tulang/192/proses-penyembuhan-patah-tulang.jpg"
-        alt="McKenzie Method"
+        alt="Post-Surgical Rehabilitation"
         class="service-image"
       />
       <h3 class="service-title">Post-Surgical</h3>
@@ -834,7 +1163,7 @@
     <div class="service-card">
       <img
         src="https://d.newsweek.com/en/full/1592805/physical-rehabilitation-centers-2020.jpg"
-        alt="Vestibular Rehab (Vertigo)"
+        alt="Geriatric Physiotherapy"
         class="service-image"
       />
       <h3 class="service-title">Geriatric Physio</h3>
@@ -843,22 +1172,10 @@
       >
     </div>
 
-    <!-- <div class="service-card">
-      <img
-        src="https://www.waldeneatingdisorders.com/wp-content/uploads/2019/05/iStock-468935686.jpg"
-        alt="Naturopathy"
-        class="service-image"
-      />
-      <h3 class="service-title">Sports Injury</h3>
-      <a href="{% url 'services' %}#sports"
-        ><button class="know-more-btn">KNOW MORE</button></a
-      >
-    </div> -->
-
     <div class="service-card">
       <img
         src="https://avatars.mds.yandex.net/i?id=c2d8baa5a05b06ef131709ca5cfb983b40fd9ca4-10727636-images-thumbs&n=13"
-        alt="Acupuncture"
+        alt="Home Physiotherapy"
         class="service-image"
       />
       <h3 class="service-title">Home Physiotherapy</h3>
@@ -870,7 +1187,7 @@
     <div class="service-card">
       <img
         src="https://media.timeout.com/images/105604859/image.jpg"
-        alt="Massage therapy"
+        alt="Mind & Body Wellness"
         class="service-image"
       />
       <h3 class="service-title">Mind & Body Wellness program</h3>
@@ -881,7 +1198,40 @@
   </div>
 </section>
 
-<section>
+
+
+<section class="how-we-work-section">
+        <div class="container">
+            <div class="image-section">
+                <img src="https://theinsurance411.com/wp-content/uploads/Long-Term-Care-177810071FB2.jpg" 
+                     alt="Professional woman working with documents and creative materials" 
+                     class="main-image">
+                <div class="floating-element circle"></div>
+                <div class="floating-element square"></div>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="section-title">Restoring Balance: Home-Based Therapy for Body & Mind</h2>
+                
+                <div class="text-columns">
+                    <div class="text-column">
+                        <p>At Alo Physio Centre, we provide expert home physiotherapy services designed to bring healing and care directly to your doorstep. Our skilled physiotherapists create personalized treatment plans to help with post-surgery recovery, injury rehabilitation, pain management, and improved mobility. With hands-on therapy and professional guidance, we ensure you regain strength, flexibility, and independence – all within the comfort of your home.</p>
+                    </div>
+                    
+                    <div class="text-column">
+                        <p>At Alo Physio Centre, we understand that true wellness goes beyond physical health. That’s why we also offer professional home counseling services to support your mental and emotional well-being. Whether you’re facing stress, anxiety, or life’s personal challenges, our experienced counselors provide a safe and compassionate space to guide you toward clarity and peace of mind. Together, we focus on building balance for both body and mind, helping you live a healthier, happier life.</p>
+                        
+                    </div>
+                </div>
+                
+                <a href="{% url 'services' %}#hom" class="learn-more-btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+<section class="testimonial-section">
+  <h2 class="testimonial-title">What Our Clients Say</h2>
+  
   <div class="testimonial-container">
     <div class="slide-counter">
       <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
@@ -889,77 +1239,154 @@
 
     <div class="testimonial-slider" id="slider">
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          Very good treatment recieved from Aldrin sunny. Very patient in
-          understanding the cause for pain and gave almost 45minutes session
-          every day. Cost is comparitively lower compared to other centres.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            Very good treatment recieved from Aldrin sunny. Very patient in
+            understanding the cause for pain and gave almost 45minutes session
+            every day. Cost is comparitively lower compared to other centres.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="Sukumaran Dharman" class="author-avatar">
+            <div class="author-details">
+              <div class="author">Sukumaran Dharman</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">Sukumaran Dharman</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          I was thoroughly impressed by the exceptional physiotherapy services
-          provided by ALO Physio Centre for my mother-in-law following her knee
-          replacement surgery. Their entire team demonstrated unwavering
-          dedication and professionalism, delivering outstanding care throughout
-          the process. I wholeheartedly recommend this team for all types of
-          physiotherapy needs. Thank you.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            I was thoroughly impressed by the exceptional physiotherapy services
+            provided by ALO Physio Centre for my mother-in-law following her knee
+            replacement surgery. Their entire team demonstrated unwavering
+            dedication and professionalism, delivering outstanding care throughout
+            the process. I wholeheartedly recommend this team for all types of
+            physiotherapy needs. Thank you.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="punit k" class="author-avatar">
+            <div class="author-details">
+              <div class="author">punit k</div>
+              <div class="position">Family Member</div>
+            </div>
+          </div>
         </div>
-        <div class="author">punit k</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          Had a good physio therapy sessions for my tennis elbow pain. Good care
-          and treatment was provided. Dr Deepa attended to me very patiently and
-          kindly. Continue your service more to the society.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            Had a good physio therapy sessions for my tennis elbow pain. Good care
+            and treatment was provided. Dr Deepa attended to me very patiently and
+            kindly. Continue your service more to the society.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="Shohha Prabhu Prabhu" class="author-avatar">
+            <div class="author-details">
+              <div class="author">Shohha Prabhu Prabhu</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">Shohha Prabhu Prabhu</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          Had my right shoulder pain since long which got resolved within just
-          few sessions, excellent patient care.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            Had my right shoulder pain since long which got resolved within just
+            few sessions, excellent patient care.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="Shreevidya R Y" class="author-avatar">
+            <div class="author-details">
+              <div class="author">Shreevidya R Y</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">Shreevidya R Y</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          I had severe back pain and i visited this physiotherapy clinic and i
-          have got the best treatment, now the back pain has come down to
-          normal.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            I had severe back pain and i visited this physiotherapy clinic and i
+            have got the best treatment, now the back pain has come down to
+            normal.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="BHARATH Y R" class="author-avatar">
+            <div class="author-details">
+              <div class="author">BHARATH Y R</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">BHARATH Y R</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          It was really a great treatment i got in physio and nice service
-          Thanks to that.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            It was really a great treatment i got in physio and nice service
+            Thanks to that.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="Tejaswini .s" class="author-avatar">
+            <div class="author-details">
+              <div class="author">Tejaswini .s</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">Tejaswini .s</div>
       </div>
 
       <div class="testimonial-slide">
-        <div class="quote-icon">"</div>
-        <div class="testimonial-text">
-          I had an amazing experience at Alo Physio centre. The staff were
-          friendly and knowledgeable. They took the time to understand my needs
-          and created a personalized treatment plan that really worked for me.
-          The facilities were clean and well-equipped, and I appreciated the
-          flexibility of being able to book appointments at a time that suited
-          me.
+        <!-- <div class="testimonial-image">
+          <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Happy client">
+        </div> -->
+        <div class="testimonial-content">
+          <div class="quote-icon">"</div>
+          <div class="testimonial-text">
+            I had an amazing experience at Alo Physio centre. The staff were
+            friendly and knowledgeable. They took the time to understand my needs
+            and created a personalized treatment plan that really worked for me.
+            The facilities were clean and well-equipped, and I appreciated the
+            flexibility of being able to book appointments at a time that suited
+            me.
+          </div>
+          <div class="author-info">
+            <img src="https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?semt=ais_hybrid&w=740&q=80" alt="alen varghese" class="author-avatar">
+            <div class="author-details">
+              <div class="author">alen varghese</div>
+              <div class="position">Patient</div>
+            </div>
+          </div>
         </div>
-        <div class="author">alen varghese</div>
       </div>
     </div>
 
