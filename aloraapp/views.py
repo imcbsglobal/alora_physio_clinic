@@ -4,7 +4,7 @@ from pyexpat.errors import messages
 import traceback
 from venv import logger
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import BadHeaderError, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import ValidationError
@@ -290,55 +290,77 @@ def export_contacts(request):
 
 
 
-
-
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
+from django.core.mail import send_mail, BadHeaderError, EmailMessage, get_connection
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponse
 
 def contact_view(request):
+    """
+    Sends an email and shows clear, actionable error messages when it fails.
+    Also adds a DEBUG-only trace so you can see what's wrong.
+    """
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
         email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
         message = request.POST.get('message', '').strip()
 
-        # Validate form data
-        if not name or not email or not message:
-            messages.error(request, "Please fill in all required fields")
-            return redirect('contact')
-        
-        if '@' not in email or '.' not in email:
-            messages.error(request, "Please enter a valid email address")
+        if not all([name, email, subject, message]):
+            messages.error(request, "Please fill in all fields.")
             return redirect('contact')
 
-        subject = f"New Contact Form Submission from {name}"
-        full_message = (
-            f"Name: {name}\n"
-            f"Email: {email}\n\n"
-            f"Message:\n{message}"
-        )
+        # Decide who receives the contact mail
+        recipients = getattr(settings, "CONTACT_RECIPIENTS", None) or \
+                     [getattr(settings, "EMAIL_HOST_USER", "") or getattr(settings, "DEFAULT_FROM_EMAIL", "")]
+        recipients = [r for r in recipients if r]  # drop empties
+
+        if not recipients:
+            messages.error(request, "Email is not configured: set CONTACT_RECIPIENTS or EMAIL_HOST_USER/DEFAULT_FROM_EMAIL in settings.")
+            return redirect('contact')
+
+        body = f"From: {name} <{email}>\n\n{message}"
 
         try:
-            send_mail(
+            # Use EmailMessage so we can set reply_to (helps replying to the user)
+            em = EmailMessage(
                 subject=subject,
-                message=full_message,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=['issababe2000@gmail.com'],  # Receiver email
-                fail_silently=False,
+                body=body,
+                from_email=getattr(settings, "DEFAULT_FROM_EMAIL", getattr(settings, "EMAIL_HOST_USER", None)),
+                to=recipients,
+                reply_to=[email] if email else None,
             )
-            messages.success(request, 'Your message has been sent successfully!')
-            return redirect('contact')
-        
+
+            # Open connection explicitly to surface connection/auth errors
+            with get_connection(
+                backend=getattr(settings, "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"),
+                host=getattr(settings, "EMAIL_HOST", None),
+                port=getattr(settings, "EMAIL_PORT", None),
+                username=getattr(settings, "EMAIL_HOST_USER", None),
+                password=getattr(settings, "EMAIL_HOST_PASSWORD", None),
+                use_tls=getattr(settings, "EMAIL_USE_TLS", False),
+                use_ssl=getattr(settings, "EMAIL_USE_SSL", False),
+                timeout=20,
+            ) as conn:
+                conn.send_messages([em])
+
         except BadHeaderError:
-            messages.error(request, "Invalid header found in email.")
+            messages.error(request, "Invalid header found.")
             return redirect('contact')
-        
         except Exception as e:
-            messages.error(request, f"Failed to send message. Please try again later.")
-            # For debugging (remove in production)
-            print(f"Email sending error: {str(e)}")  
+            # Show full details only when DEBUG = True
+            if getattr(settings, "DEBUG", False):
+                messages.error(request, f"Email failed: {type(e).__name__}: {e}")
+            else:
+                messages.error(request, "Sorry, we couldn't send your message. Please try again later.")
             return redirect('contact')
 
+        messages.success(request, "Thanks! Your message has been sent.")
+        return redirect('contact')
+
+    # GET
+    # Tiny DEBUG breadcrumb so you can see if the page loaded the right view
+    if getattr(settings, "DEBUG", False):
+        messages.info(request, "Loaded contact_view ✅")
     return render(request, 'contact.html')
+

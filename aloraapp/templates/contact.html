@@ -838,6 +838,23 @@
                                 <p>Gokula Layout, Basavanapura Rd, Battarahalli, Krishnarajapuram, Karnataka 560036</p>
                             </div>
                         </div>
+
+                        <div class="info-item">
+                            <svg class="info-icon" fill="#3498db" viewBox="0 0 24 24">
+                                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 
+                                        1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 
+                                        .55-.45 1-1 1C10.07 21 3 13.93 3 5c0-.55.45-1 
+                                        1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 
+                                        3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Contact</h4>
+                                <p>+91- 8147635040</p>
+                                <p>+91- 9061969447</p>
+                                <p>directoralora@gmail.com</p>
+                            </div>
+                        </div>
+
                         
                         <div class="info-item">
                             <svg class="info-icon" fill="#e74c3c" viewBox="0 0 24 24">
@@ -877,6 +894,23 @@
                                 <h4>Address</h4>
                                 <p>SHANTHINILAYA HEALTH CARE CENTRE, Brindavan Layout, TC Palya, Krishnarajapuram, Bengaluru, Karnataka 560036</p>
                             </div>
+                            
+                        </div>
+
+                          <div class="info-item">
+                            <svg class="info-icon" fill="#3498db" viewBox="0 0 24 24">
+                                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 
+                                        1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 
+                                        .55-.45 1-1 1C10.07 21 3 13.93 3 5c0-.55.45-1 
+                                        1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 
+                                        3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            <div class="info-content">
+                                <h4>Contact</h4>
+                                <p>+91- 8147635040</p>
+                                <p>+91- 9061969447</p>
+                                <p>directoralora@gmail.com</p>
+                            </div>
                         </div>
                         
                         <div class="info-item">
@@ -911,59 +945,55 @@
         <div class="form-container">
     <h2 class="form-title">Get in touch</h2>
 
-    <form id="contactForm" method="post" action="{% url 'contact' %}">
-    {% csrf_token %}
-    
-    <!-- Display messages -->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+    <form id="contactForm" action="{% url 'contact' %}" method="post" novalidate>
+  {% csrf_token %}
 
-    <div class="form-group">
-        <label class="form-label" for="name">Name*</label>
-        <input 
-            type="text" 
-            id="name" 
-            name="name" 
-            class="form-input" 
-            placeholder="Enter your Name"
-            value="{{ request.POST.name }}"
-            required
-        >
-    </div>
+  <div class="form-group">
+    <label for="name">Your Name</label>
+    <input id="name" name="name" type="text" class="form-control" placeholder="John Doe" required>
+  </div>
 
-    <div class="form-group">
-        <label class="form-label" for="email">Email*</label>
-        <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            class="form-input" 
-            placeholder="Enter a valid email address"
-            value="{{ request.POST.email }}"
-            required
-        >
-    </div>
+  <div class="form-group">
+    <label for="email">Your Email</label>
+    <input id="email" name="email" type="email" class="form-control" placeholder="you@example.com" required>
+  </div>
 
-    <div class="form-group">
-        <label class="form-label" for="message">Message*</label>
-        <textarea 
-            id="message" 
-            name="message" 
-            class="form-input form-textarea" 
-            placeholder="Your message here..."
-            required
-        >{{ request.POST.message }}</textarea>
-    </div>
+  <div class="form-group">
+    <label for="subject">Subject</label>
+    <input id="subject" name="subject" type="text" class="form-control" placeholder="How can we help?" required>
+  </div>
 
-    <button type="submit" class="submit-btn">Submit</button>
+  <div class="form-group">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" class="form-control" placeholder="Write your message..." required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary submit-btn">Send Message</button>
 </form>
+
+<!-- flash messages (Django messages framework) -->
+{% if messages %}
+  <div id="django-messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Minimal UX script: DO NOT preventDefault() -->
+<script>
+  (function () {
+    var form = document.getElementById('contactForm');
+    var btn = form.querySelector('.submit-btn');
+    form.addEventListener('submit', function () {
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+      }
+    });
+  })();
+</script>
+
 </div>
 
 <!-- ✅ Include SweetAlert2 JS -->
