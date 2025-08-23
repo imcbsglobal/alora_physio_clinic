@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-3*x!3_%b^@g9)21#2pv994m)g7y#ft*=s=4ng@p_6ujg)zji!r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['192.168.1.27', 'localhost', '127.0.0.1','www.alophysio.com','alophysio.com']
+ALLOWED_HOSTS = ['192.168.1.27', 'localhost', '127.0.0.1','www.alophysio.com','alophysio.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://alophysio.com',
